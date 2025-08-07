@@ -5,12 +5,16 @@ import { Providers } from './providers'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Follow Economy - Financial Intelligence Platform',
-  description: 'Real-time cryptocurrency tracking, market analysis, trading tools, and economic insights',
-  keywords: 'cryptocurrency, bitcoin, ethereum, trading, finance, market analysis, economic calendar',
+  description: 'Real-time cryptocurrency tracking, market analysis, trading tools, and economic insights with professional glassmorphism design',
+  keywords: 'cryptocurrency, bitcoin, ethereum, trading, finance, market analysis, economic calendar, glassmorphism',
   openGraph: {
     title: 'Follow Economy - Financial Intelligence Platform',
     description: 'Real-time cryptocurrency tracking, market analysis, trading tools, and economic insights',
@@ -21,6 +25,7 @@ export const metadata: Metadata = {
         url: 'https://www.followeconomy.com/og-image.png',
         width: 1200,
         height: 630,
+        alt: 'Follow Economy - Financial Intelligence Platform',
       },
     ],
     locale: 'en_US',
@@ -31,6 +36,7 @@ export const metadata: Metadata = {
     title: 'Follow Economy - Financial Intelligence Platform',
     description: 'Real-time cryptocurrency tracking, market analysis, trading tools, and economic insights',
     images: ['https://www.followeconomy.com/og-image.png'],
+    creator: '@followeconomy',
   },
   robots: {
     index: true,
@@ -48,6 +54,11 @@ export const metadata: Metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
 }
 
 export default function RootLayout({
@@ -56,12 +67,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-gradient-to-br from-dark-200 via-dark-100 to-dark-300 min-h-screen`}>
+    <html lang="en" className={inter.className}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      </head>
+      <body className="antialiased">
         <Providers>
-          <div className="flex flex-col min-h-screen">
+          <div className="relative min-h-screen">
             <Header />
-            <main className="flex-1">
+            <main className="relative z-10">
               {children}
             </main>
             <Footer />
