@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -35,8 +36,8 @@ module.exports = {
       },
       keyframes: {
         'pulse-glow': {
-          '0%, 100%': { opacity: 1 },
-          '50%': { opacity: 0.5 },
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
         },
         'float': {
           '0%, 100%': { transform: 'translateY(0)' },
@@ -57,3 +58,4 @@ module.exports = {
     require('@tailwindcss/typography'),
   ],
 }
+export default config

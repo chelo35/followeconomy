@@ -12,6 +12,7 @@ import {
   Percent,
   LineChart
 } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const tools = [
   {
@@ -86,7 +87,7 @@ export function QuickTools() {
             transition={{ delay: index * 0.05 }}
           >
             <Link
-              href={tool.href}
+              href={tool.href as any}
               className="glass-dark rounded-lg p-4 block hover:bg-white/5 transition-all duration-300 group card-hover"
             >
               <div className={cn(

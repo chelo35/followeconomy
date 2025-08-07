@@ -3,61 +3,77 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --primary: 200 100% 50%;
-    --secondary: 300 100% 50%;
-    --background: 220 40% 10%;
-    --foreground: 210 40% 98%;
-    --card: 220 40% 13%;
-    --card-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 200 100% 50%;
-    --radius: 0.5rem;
-  }
-
-  * {
-    @apply border-border;
-  }
-
   body {
-    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #ffffff;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 @layer components {
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-lg;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
   }
 
   .glass-dark {
-    @apply bg-black/20 backdrop-blur-lg border border-white/5 rounded-lg;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
   }
 
   .neon-glow {
-    @apply shadow-[0_0_15px_rgba(0,212,255,0.5)];
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+    background: linear-gradient(135deg, #00d4ff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .button-gradient {
-    @apply bg-gradient-to-r from-primary to-secondary hover:shadow-lg transition-all duration-300;
+    background: linear-gradient(135deg, #00d4ff, #ff00ff);
+    transition: all 0.3s ease;
+  }
+
+  .button-gradient:hover {
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
   }
 
   .card-hover {
-    @apply hover:shadow-[0_0_30px_rgba(0,212,255,0.3)] transition-all duration-300 hover:-translate-y-1;
+    transition: all 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
   }
 
   .shimmer {
-    @apply relative overflow-hidden;
+    position: relative;
+    overflow: hidden;
   }
 
   .shimmer::after {
-    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent;
     content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    animation: shimmer 2s linear infinite;
   }
 }
 
@@ -73,5 +89,14 @@
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }

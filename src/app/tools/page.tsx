@@ -109,7 +109,7 @@ export default function ToolsPage() {
         {tools.map((tool) => (
           <Link
             key={tool.name}
-            href={tool.href}
+            href={tool.href as any}
             className="glass rounded-xl p-6 hover:bg-white/5 transition-all duration-300 group card-hover"
           >
             <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-r ${tool.color}`}>

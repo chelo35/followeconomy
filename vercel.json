@@ -1,0 +1,21 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "regions": ["iad1"],
+  "functions": {
+    "src/app/api/crypto/route.ts": {
+      "maxDuration": 10
+    },
+    "src/app/api/markets/route.ts": {
+      "maxDuration": 10
+    },
+    "src/app/api/news/route.ts": {
+      "maxDuration": 10
+    },
+    "src/app/api/calendar/route.ts": {
+      "maxDuration": 10
+    }
+  }
+}
