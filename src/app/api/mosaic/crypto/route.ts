@@ -3,7 +3,7 @@ export const revalidate = 60;
 export const dynamic = 'force-dynamic';
 
 const EXCLUDE = new Set([
-  'USDT','USDC','DAI','BUSD','TUSD','USDP','FDUSD','EURT','UST','USDE','PYUSD',
+  'USDT','USDC','DAI','BUSD','TUSD','USDP','FDUSD','EURT','PYUSD','USDE',
   'WBTC','WETH','STETH','RETH'
 ]);
 
@@ -25,10 +25,12 @@ export async function GET() {
       }));
     return NextResponse.json({ items, ts: Date.now() });
   } catch {
-    const items = [
+    // kısa fallback
+    return NextResponse.json({ items: [
       { symbol:'BTC', price:64320, changePct:1.85, mcapUsd:1.27e12 },
       { symbol:'ETH', price:3210,  changePct:0.92, mcapUsd:3.8e11 },
-    ];
-    return NextResponse.json({ items, ts: Date.now(), mock:true });
+      { symbol:'SOL', price:178,   changePct:-0.23, mcapUsd:8e10  },
+      { symbol:'BNB', price:607.5, changePct:0.44, mcapUsd:9.5e10 },
+    ], ts: Date.now(), mock:true });
   }
 }

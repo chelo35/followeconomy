@@ -1,20 +1,15 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-type Item = {
-  symbol: string;
-  price?: number;
-  changePct: number;
-  weight?: number; // mcap/vol gibi – sıralama için
-};
+type Item = { symbol: string; price?: number; changePct: number; weight?: number };
 
-function formatPrice(p?: number) {
+function fmtPrice(p?: number) {
   if (p == null || !isFinite(p)) return '—';
   const v = Math.abs(p);
   if (v >= 1000) return Math.round(p).toLocaleString('en-US');
-  if (v >= 100)  return p.toFixed(2);
-  if (v >= 1)    return p.toFixed(2);
-  if (v >= 0.1)  return p.toFixed(3);
+  if (v >= 100) return p.toFixed(2);
+  if (v >= 1) return p.toFixed(2);
+  if (v >= 0.1) return p.toFixed(3);
   if (v >= 0.01) return p.toFixed(4);
   if (v >= 0.001) return p.toFixed(5);
   if (v >= 0.0001) return p.toFixed(6);
@@ -24,10 +19,8 @@ function formatPrice(p?: number) {
 }
 
 export default function TreemapHeatmap({
-  title,
-  endpoint,
-  cols = 6,
-  rows = 8,          // iki widget aynı değerde olsun => aynı yükseklik
+  title, endpoint,
+  cols = 5, rows = 8,             // biraz daha büyük kutu
   pollMs = 60_000,
 }: { title: string; endpoint: string; cols?: number; rows?: number; pollMs?: number }) {
   const [items, setItems] = useState<Item[]>([]);
@@ -35,7 +28,6 @@ export default function TreemapHeatmap({
   const [focus, setFocus] = useState<string | null>(null);
   const [zoom, setZoom] = useState<Item | null>(null);
 
-  // veri
   useEffect(() => {
     const load = async () => {
       try {
@@ -47,9 +39,9 @@ export default function TreemapHeatmap({
           changePct: Number(it.changePct || 0),
           weight: Number(it.mcapUsd || it.weight || Math.abs(it.changePct) || 1),
         }));
-        // ağırlığa göre sırala
+        // ağırlığa göre sırala ve tam sığacak kadar al
         arr.sort((a, b) => (b.weight! - a.weight!));
-        setItems(arr.slice(0, cols * rows)); // uniform grid ⇒ tam sığacak kadar
+        setItems(arr.slice(0, cols * rows));
         setTs(j.ts ?? Date.now());
       } catch {/* sessiz */}
     };
@@ -59,11 +51,9 @@ export default function TreemapHeatmap({
   }, [endpoint, cols, rows, pollMs]);
 
   const color = (pct: number) => {
-    const a = Math.min(0.65, 0.18 + Math.min(8, Math.abs(pct)) / 8 * 0.47);
-    return `rgba(${pct >= 0 ? '46,204,113' : '231,76,60'}, ${a.toFixed(2)})`;
+    const alpha = 0.2 + Math.min(8, Math.abs(pct)) / 8 * 0.45;
+    return `rgba(${pct >= 0 ? '46,204,113' : '231,76,60'}, ${alpha.toFixed(2)})`;
   };
-
-  const gridItems = useMemo(() => items, [items]);
 
   return (
     <div className="tm-widget">
@@ -72,28 +62,27 @@ export default function TreemapHeatmap({
         <span className="tm-ts">{ts ? new Date(ts).toLocaleTimeString() : '—'}</span>
       </div>
 
-      <div
-        className="tm-grid uniform"
-        style={{ ['--tm-cols' as any]: cols, ['--tm-rows' as any]: rows }}
-      >
-        {gridItems.map((t) => {
-          const isFocus = focus === t.symbol;
+      <div className="tm-grid uniform" style={{ ['--tm-cols' as any]: cols, ['--tm-rows' as any]: rows }}>
+        {items.map((t) => {
+          const isFocus = focus === t.symbol;               // tek tıkla 2x
           return (
             <button
               key={t.symbol}
-              className={`tm-tile ${isFocus ? 'is-focus' : ''} ${t.changePct >= 0 ? 'up':'down'}`}
+              className={`tm-tile ${isFocus ? 'is-focus' : ''} ${t.changePct >= 0 ? 'up' : 'down'}`}
               style={{
                 gridColumn: `span ${isFocus ? 2 : 1}`,
                 gridRow:    `span ${isFocus ? 2 : 1}`,
                 background: color(t.changePct),
               }}
-              title={t.symbol}
               onClick={() => setFocus(isFocus ? null : t.symbol)}
               onDoubleClick={() => setZoom(t)}
+              title={t.symbol}
             >
-              <div className="tm-sym" title={t.symbol}>{t.symbol}</div>
-              <div className="tm-price" title={String(t.price ?? '')}>{formatPrice(t.price)}</div>
-              <div className="tm-ch">{t.changePct >= 0 ? '▲':'▼'} {Math.abs(t.changePct).toFixed(2)}%</div>
+              <div className="tm-row">
+                <span className="tm-sym" aria-label="symbol">{t.symbol}</span>
+                <span className="tm-ch">{t.changePct >= 0 ? '▲' : '▼'} {Math.abs(t.changePct).toFixed(2)}%</span>
+              </div>
+              {isFocus && <div className="tm-price">{fmtPrice(t.price)}</div>}
             </button>
           );
         })}
@@ -110,8 +99,7 @@ export default function TreemapHeatmap({
               <div className={`tm-modal-badge ${zoom.changePct >= 0 ? 'up' : 'down'}`}>
                 {zoom.changePct >= 0 ? '▲' : '▼'} {Math.abs(zoom.changePct).toFixed(2)}%
               </div>
-              <div className="tm-modal-price">{formatPrice(zoom.price)}</div>
-              <p className="tm-hint">Click outside to close. (Mini chart soon)</p>
+              <div className="tm-modal-price">{fmtPrice(zoom.price)}</div>
             </div>
           </div>
         </div>
