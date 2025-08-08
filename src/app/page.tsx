@@ -2,6 +2,7 @@
 import TickerRow from '@/components/TickerRow';
 import WidgetBar from '@/components/WidgetBar';
 import TreemapHeatmap from '@/components/TreemapHeatmap';
+import CryptoGrid from '@/components/CryptoGrid';
 
 const cryptoItems = [
   { label: 'BTC/USDT',  value: '64,320', change: 1.85 },
@@ -55,7 +56,7 @@ export default function Home() {
       {/* Sol sütun */}
       <section className="below">
         <aside className="left-rail">
-          {/* temizlendi — birazdan yeni CryptoGrid eklenecek */}
+          <CryptoGrid />
         </aside>
         <div className="main-rail">{/* ileri içerik */}</div>
       </section>
