@@ -548,6 +548,10 @@ html:not(.dark) .tm-sym, html:not(.dark) .tm-ch, html:not(.dark) .tm-price{ colo
 .tm-ch{ font-variant-numeric: tabular-nums; font-size:12px; }
 .tm-price{ font-variant-numeric: tabular-nums; font-size:13px; font-weight:700; }
 
+/* Boş kutular */
+.tm-blank{ background: var(--surface-light); pointer-events: none; }
+.dark .tm-blank{ background: var(--surface-dark); }
+
 /* Modal */
 .tm-modal{
   position: fixed; inset: 0; background: rgba(0,0,0,.4);

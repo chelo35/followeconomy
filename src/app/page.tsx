@@ -55,8 +55,25 @@ export default function Home() {
       {/* Sol sütun */}
       <section className="below">
         <aside className="left-rail">
-          {/* 5x7 = 35 kutu; daha okunur ve daha küçük widget */}
-          <TreemapHeatmap title="Crypto Heatmap" endpoint="/api/mosaic/crypto" cols={5} rows={7} />
+          <TreemapHeatmap
+            title="Crypto Heatmap"
+            endpoint="/api/mosaic/crypto"
+            cols={4}
+            rows={4}
+            rowHeight={56}                       // kutular 2x gibi büyük
+            symbolsOrder={[
+              // 1. sıra
+              'BTC','ETH','SOL','XRP',
+              // 2. sıra
+              'BNB','AVAX','HBAR','ADA',
+              // 3. sıra
+              'XLM','DOGE','LINK','AAVE',
+              // 4. sıra
+              'ENA','TRX','DOT','SUI'
+            ]}
+          />
+
+          {/* Hisseyi sonra ele alacağız */}
           <TreemapHeatmap title="US Indices & Majors" endpoint="/api/mosaic/stocks" cols={5} rows={7} />
         </aside>
         <div className="main-rail">{/* ileri içerik */}</div>
