@@ -1,5 +1,6 @@
 'use client';
 import TickerRow from '@/components/TickerRow';
+import WidgetBar from '@/components/WidgetBar';
 
 const cryptoItems = [
   { label: 'BTC/USDT',  value: '64,320', change: 1.85 },
@@ -46,6 +47,7 @@ const globalItems = [
 export default function Home() {
   return (
     <main className="container">
+      <WidgetBar />
       <TickerRow items={cryptoItems} variant="crypto" speed={60} />
       <TickerRow items={globalItems} variant="global" speed={54} />
       <section className="spacer" aria-hidden="true" />

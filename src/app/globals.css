@@ -25,6 +25,9 @@
   --success-dark: #43b581;
   --danger-dark: #f04747;
   --border-dark: #4f545c;
+
+  /* Layout */
+  --container-max: 1440px; /* önce 1200'dü */
 }
 
 /* Base */
@@ -41,12 +44,15 @@ body {
 body.light { background: var(--background-light); color: var(--text-light); }
 body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 
-/* Page container (yazısız; sadece spacing) */
-.container {
-  max-width: 1200px;
+/* Page container */
+.container{
+  max-width: var(--container-max);
   margin: 0 auto;
   padding: 24px;
 }
+
+/* İleride tam genişlik istersen bu sınıfı verirsin */
+.container--fluid { max-width: 100%; }
 
 /* TOP HEADER BLOCK (no text) */
 .header-block {
@@ -134,7 +140,7 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .dark .topbar { background: var(--background-dark); border-color: var(--border-dark); }
 
 .topbar-inner {
-  max-width: 1200px; margin: 0 auto;
+  max-width: var(--container-max); margin: 0 auto;
   display:flex; align-items:center; gap:16px; padding: 10px 16px;
 }
 
@@ -230,6 +236,65 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 /* Accessibility: motion azaltma */
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }
+}
+
+/* ======= WIDGET BAR (single row, responsive) ======= */
+.widget-bar{
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;          /* mobilde yatay kaydırma */
+  padding: 10px 0;
+  scroll-snap-type: x mandatory;
+}
+.widget{
+  scroll-snap-align: start;
+  flex: 1 1 0;               /* geniş ekranda eşit dağılır */
+  min-width: 240px;          /* çok dar olmasın */
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(180deg, var(--surface-light), #fff);
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+.dark .widget{
+  border-color: var(--border-dark);
+  background: linear-gradient(180deg, var(--surface-dark), #2b2e33);
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+}
+.widget-h{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.w-title{ font-weight:600; opacity:.95; }
+.w-sub{ font-size:12px; opacity:.7; margin-top:4px; }
+
+/* Stat */
+.stat{ display:flex; align-items:baseline; gap:10px; }
+.stat-val{ font-size:22px; font-weight:700; }
+.stat-change{ font-variant-numeric: tabular-nums; font-size:14px; }
+.stat-change.up{ color: var(--success-light); }
+.stat-change.down{ color: var(--danger-light); }
+.dark .stat-change.up{ color: var(--success-dark); }
+.dark .stat-change.down{ color: var(--danger-dark); }
+
+/* Gauge */
+.gauge{ display:flex; flex-direction:column; gap:6px; }
+.gauge-track{
+  position:relative; height:10px; border-radius:999px; overflow:hidden;
+  background: rgba(0,0,0,.08);
+  border: 1px solid var(--border-light);
+}
+.dark .gauge-track{ background: rgba(255,255,255,.06); border-color: var(--border-dark); }
+.gauge-fill{
+  position:absolute; inset:0 auto 0 0;
+  background: linear-gradient(90deg, var(--danger-light), var(--primary-light), var(--success-light));
+  transform: translateZ(0);
+}
+.dark .gauge-fill{
+  background: linear-gradient(90deg, var(--danger-dark), var(--primary-dark), var(--success-dark));
+}
+.gauge-val{ font-weight:700; }
+
+/* Desktop tek satıra sığdırma */
+@media (min-width: 1100px){
+  .widget-bar{ overflow-x: visible; }
 }
 
 .spacer { height: 40vh; }
