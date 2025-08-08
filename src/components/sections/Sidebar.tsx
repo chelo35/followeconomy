@@ -51,12 +51,12 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="w-80 bg-white border-l border-gray-200 h-screen overflow-y-auto">
+    <aside className="w-80 bg-[#2d2a46] border-l border-[#34314c] h-screen overflow-y-auto">
       <div className="p-4 space-y-6">
         
         {/* Fear & Greed Index */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="cmc-card p-4">
+          <h3 className="cmc-heading text-lg mb-4 flex items-center">
             🎯 Fear & Greed Index
           </h3>
           <div className="text-center">
@@ -85,22 +85,22 @@ export default function Sidebar() {
                 </div>
               </div>
             </div>
-            <p className="text-sm text-gray-600">Market sentiment analysis</p>
+            <p className="cmc-text-secondary text-sm">Market sentiment analysis</p>
           </div>
         </div>
 
         {/* Market Overview */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            📊 Market Overview <span className="ml-2 text-sm font-normal text-green-600">LIVE</span>
+        <div className="cmc-card p-4">
+          <h3 className="cmc-heading text-lg mb-4 flex items-center">
+            📊 Market Overview <span className="ml-2 text-sm font-normal cmc-text-success">LIVE</span>
           </h3>
           <div className="space-y-3">
             {marketOverviewData.map((item, index) => (
               <div key={index} className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">{item.label}</span>
+                <span className="cmc-text-secondary text-sm">{item.label}</span>
                 <div className="text-right">
-                  <div className="text-sm font-medium text-gray-900">{item.value}</div>
-                  <div className={`text-xs font-medium ${item.positive ? 'text-green-600' : 'text-red-600'}`}>
+                  <div className="text-white font-medium text-sm">{item.value}</div>
+                  <div className={`text-xs font-medium ${item.positive ? 'cmc-text-success' : 'cmc-text-error'}`}>
                     {item.change}
                   </div>
                 </div>
@@ -110,20 +110,20 @@ export default function Sidebar() {
         </div>
 
         {/* OnChain Metrics */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="cmc-card p-4">
+          <h3 className="cmc-heading text-lg mb-4 flex items-center">
             ⛓️ OnChain Metrics
           </h3>
           <div className="space-y-4">
             <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-2">Bitcoin Network</h4>
+              <h4 className="cmc-text-secondary text-sm font-medium mb-2">Bitcoin Network</h4>
               <div className="space-y-2">
                 {onChainData.filter(item => item.network === 'Bitcoin').map((item, index) => (
                   <div key={index} className="flex items-center justify-between">
-                    <span className="text-xs text-gray-600">{item.metric}</span>
+                    <span className="cmc-text-secondary text-xs">{item.metric}</span>
                     <div className="text-right">
-                      <div className="text-xs font-medium text-gray-900">{item.value}</div>
-                      <div className={`text-xs ${item.positive ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className="text-white text-xs font-medium">{item.value}</div>
+                      <div className={`text-xs ${item.positive ? 'cmc-text-success' : 'cmc-text-error'}`}>
                         {item.change}
                       </div>
                     </div>
@@ -132,14 +132,14 @@ export default function Sidebar() {
               </div>
             </div>
             <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-2">Ethereum Network</h4>
+              <h4 className="cmc-text-secondary text-sm font-medium mb-2">Ethereum Network</h4>
               <div className="space-y-2">
                 {onChainData.filter(item => item.network === 'Ethereum').map((item, index) => (
                   <div key={index} className="flex items-center justify-between">
-                    <span className="text-xs text-gray-600">{item.metric}</span>
+                    <span className="cmc-text-secondary text-xs">{item.metric}</span>
                     <div className="text-right">
-                      <div className="text-xs font-medium text-gray-900">{item.value}</div>
-                      <div className={`text-xs ${item.positive ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className="text-white text-xs font-medium">{item.value}</div>
+                      <div className={`text-xs ${item.positive ? 'cmc-text-success' : 'cmc-text-error'}`}>
                         {item.change}
                       </div>
                     </div>
@@ -151,8 +151,8 @@ export default function Sidebar() {
         </div>
 
         {/* Market Movers */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="cmc-card p-4">
+          <h3 className="cmc-heading text-lg mb-4 flex items-center">
             🚀 Top Movers (24h)
           </h3>
           <div className="space-y-3">
@@ -160,11 +160,11 @@ export default function Sidebar() {
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-center">
                   <div className="w-6 h-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mr-2"></div>
-                  <span className="text-sm font-medium text-gray-900">{coin.name}</span>
+                  <span className="text-white text-sm font-medium">{coin.name}</span>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-medium text-gray-900">{coin.price}</div>
-                  <div className="text-xs font-medium text-green-600">{coin.change}</div>
+                  <div className="text-white text-sm font-medium">{coin.price}</div>
+                  <div className="cmc-text-success text-xs font-medium">{coin.change}</div>
                 </div>
               </div>
             ))}
@@ -172,21 +172,21 @@ export default function Sidebar() {
         </div>
 
         {/* Exchange Flows */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="cmc-card p-4">
+          <h3 className="cmc-heading text-lg mb-4 flex items-center">
             💹 Exchange Flows (24h)
           </h3>
-          <div className="text-xs text-gray-500 mb-3">Net flow in millions USD</div>
+          <div className="cmc-text-secondary text-xs mb-3">Net flow in millions USD</div>
           <div className="space-y-3">
             {exchangeFlows.map((exchange, index) => (
               <div key={index} className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-900">{exchange.exchange}</span>
-                  <span className={`text-sm font-medium ${exchange.net >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <span className="text-white text-sm font-medium">{exchange.exchange}</span>
+                  <span className={`text-sm font-medium ${exchange.net >= 0 ? 'cmc-text-success' : 'cmc-text-error'}`}>
                     {exchange.net >= 0 ? '+' : ''}${exchange.net.toFixed(1)}M
                   </span>
                 </div>
-                <div className="flex justify-between text-xs text-gray-500">
+                <div className="flex justify-between cmc-text-secondary text-xs">
                   <span>In: ${exchange.inflow}M</span>
                   <span>Out: ${exchange.outflow}M</span>
                 </div>
@@ -196,21 +196,21 @@ export default function Sidebar() {
         </div>
 
         {/* Quick Tools */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="cmc-card p-4">
+          <h3 className="cmc-heading text-lg mb-4 flex items-center">
             🛠️ Quick Tools
           </h3>
           <div className="space-y-2">
-            <button className="w-full text-left px-3 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded transition-colors">
+            <button className="w-full text-left px-3 py-2 text-sm text-[#3861fb] hover:bg-[#3a3653] rounded transition-colors cmc-button">
               📊 Position Calculator
             </button>
-            <button className="w-full text-left px-3 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded transition-colors">
+            <button className="w-full text-left px-3 py-2 text-sm text-[#3861fb] hover:bg-[#3a3653] rounded transition-colors cmc-button">
               💱 Currency Converter
             </button>
-            <button className="w-full text-left px-3 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded transition-colors">
+            <button className="w-full text-left px-3 py-2 text-sm text-[#3861fb] hover:bg-[#3a3653] rounded transition-colors cmc-button">
               📈 Profit Calculator
             </button>
-            <button className="w-full text-left px-3 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded transition-colors">
+            <button className="w-full text-left px-3 py-2 text-sm text-[#3861fb] hover:bg-[#3a3653] rounded transition-colors cmc-button">
               📊 % Calculator
             </button>
           </div>

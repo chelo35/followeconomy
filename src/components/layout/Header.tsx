@@ -2,62 +2,74 @@
 import { useState } from 'react'
 
 export default function Header() {
-  const [isPromoBannerOpen, setIsPromoBannerOpen] = useState(true)
-
   return (
-    <>
-      {/* Promotional Banner */}
-      {isPromoBannerOpen && (
-        <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black text-sm py-2 px-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <span>📈</span>
-              <span>Get real-time crypto insights with Follow Economy Pro | Limited Time: 50% OFF</span>
-              <button className="bg-black text-white px-3 py-1 rounded text-xs ml-4 hover:bg-gray-800">
-                CLAIM OFFER
-              </button>
+    <header className="bg-[#1a1728] border-b border-[#34314c] sticky top-0 z-50">
+      <div className="max-w-[1400px] mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center">
+            <h1 className="text-2xl font-bold text-white">Follow Economy</h1>
+          </div>
+
+          {/* Main Navigation - CoinMarketCap Style */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            <a href="#" className="text-[#a7a7cc] hover:text-white font-medium transition-colors text-sm">
+              Cryptocurrencies
+            </a>
+            <a href="#" className="text-[#a7a7cc] hover:text-white font-medium transition-colors text-sm">
+              DexScan
+            </a>
+            <a href="#" className="text-[#a7a7cc] hover:text-white font-medium transition-colors text-sm">
+              Exchanges
+            </a>
+            <a href="#" className="text-[#a7a7cc] hover:text-white font-medium transition-colors text-sm">
+              Community
+            </a>
+            <a href="#" className="text-[#a7a7cc] hover:text-white font-medium transition-colors text-sm">
+              Products
+            </a>
+          </nav>
+
+          {/* Right Side - CoinMarketCap Style */}
+          <div className="flex items-center space-x-4">
+            {/* Portfolio */}
+            <button className="text-[#a7a7cc] hover:text-white font-medium transition-colors text-sm hidden md:block">
+              Portfolio
+            </button>
+            
+            {/* Watchlist */}
+            <button className="text-[#a7a7cc] hover:text-white font-medium transition-colors text-sm hidden md:block">
+              Watchlist
+            </button>
+
+            {/* Search */}
+            <div className="relative hidden md:block">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="h-4 w-4 text-[#a7a7cc]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input
+                type="text"
+                className="block w-64 pl-10 pr-3 py-2 border border-[#34314c] rounded-lg bg-[#2d2a46] text-white placeholder-[#a7a7cc] focus:outline-none focus:border-[#3861fb] focus:ring-1 focus:ring-[#3861fb] text-sm"
+                placeholder="Search cryptocurrencies"
+              />
             </div>
-            <button 
-              onClick={() => setIsPromoBannerOpen(false)}
-              className="text-black hover:text-gray-700 text-lg"
-            >
-              ×
+
+            {/* Log In Button */}
+            <button className="bg-[#3861fb] hover:bg-[#4a73fc] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:transform hover:-translate-y-0.5 text-sm">
+              Log In
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button className="lg:hidden text-[#a7a7cc] hover:text-white">
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
             </button>
           </div>
         </div>
-      )}
-
-      {/* Main Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-900">Follow Economy</h1>
-            </div>
-
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Markets</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Cryptocurrency</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">News</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Analysis</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Tools</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Calendar</a>
-            </nav>
-
-            {/* Auth Buttons */}
-            <div className="flex items-center space-x-4">
-              <button className="text-blue-600 hover:text-blue-800 font-medium transition-colors">
-                Sign In
-              </button>
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded font-medium transition-colors">
-                Free Sign Up
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-    </>
+      </div>
+    </header>
   )
 }
