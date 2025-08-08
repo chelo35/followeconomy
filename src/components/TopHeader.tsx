@@ -1,12 +1,50 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import ThemeToggle from './ThemeToggle';
+
+const NAV_ITEMS = [
+  "Markets","News","Crypto News","Economic Calendar",
+  "Charts","Watchlist","Alerts","AI Insights",
+  "On-chain Data","Derivatives","Macro","Research",
+  "FollowEconomy Pro","Settings","Language","Theme"
+];
+
+function chunk<T>(arr: T[], size: number) {
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
 
 export default function TopHeader() {
   const [lang, setLang] = useState('en');
+  const [openSheet, setOpenSheet] = useState(false);
+  const [page, setPage] = useState(0);
+  const pagerRef = useRef<HTMLDivElement>(null);
+
+  // 1 sayfada 8 link (2 sütun x 4 satır)
+  const pages = useMemo(() => chunk(NAV_ITEMS, 8), []);
+
+  // dots tıklanınca ilgili sayfaya kaydır
+  const goTo = (i: number) => {
+    const el = pagerRef.current;
+    if (!el) return;
+    const w = el.clientWidth;
+    el.scrollTo({ left: i * w, behavior: "smooth" });
+    setPage(i);
+  };
+
+  // scroll ile aktif sayfayı takip et
+  const onScroll = () => {
+    const el = pagerRef.current;
+    if (!el) return;
+    const i = Math.round(el.scrollLeft / el.clientWidth);
+    if (i !== page) setPage(i);
+  };
 
   return (
-    <header className="topbar">
+    <>
+      {/* DESKTOP: mevcut header burada kalıyor */}
+      <header className="topbar desktop-only">
       <div className="topbar-inner grid">
         {/* Logo */}
         <a href="/" className="logo" aria-label="FollowEconomy">
@@ -71,5 +109,80 @@ export default function TopHeader() {
         </div>
       </div>
     </header>
+
+      {/* MOBILE COMPACT HEADER */}
+      <div className="topbar-mobile mobile-only">
+        <div className="m-left">
+          <a href="/" className="logo-sm">FollowEconomy</a>
+        </div>
+        <div className="m-right">
+          <button className="icon-btn" aria-label="Search">🔍</button>
+          <button className="icon-btn" aria-label="Theme">🌓</button>
+          <a className="icon-btn" href="/login" aria-label="Login">↪︎</a>
+          <button className="icon-btn" aria-label="Menu" onClick={() => setOpenSheet(true)}>⋯</button>
+        </div>
+      </div>
+
+      {/* MOBILE BOTTOM TAB BAR */}
+      <nav className="bottom-nav mobile-only">
+        <a href="/" className="tab">Markets</a>
+        <a href="/news" className="tab">News</a>
+        <a href="/crypto" className="tab">Crypto</a>
+        <a href="/calendar" className="tab">Calendar</a>
+        <button className="tab more" onClick={() => setOpenSheet(true)}>More</button>
+      </nav>
+
+      {/* MOBILE NAV SHEET */}
+      {openSheet && (
+        <div className="sheet-backdrop" onClick={() => setOpenSheet(false)}>
+          <div className="sheet" onClick={(e)=>e.stopPropagation()}>
+            <div className="sheet-head">
+              <strong>Navigation</strong>
+              <button className="icon-btn" onClick={() => setOpenSheet(false)}>✕</button>
+            </div>
+
+            {/* PAGER */}
+            <div
+              ref={pagerRef}
+              className="sheet-pager"
+              onScroll={onScroll}
+            >
+              {pages.map((items, idx) => (
+                <div className="sheet-page" key={idx} aria-roledescription="page">
+                  <div className="sheet-grid">
+                    {items.map((label) => {
+                      const href =
+                        label === "Markets" ? "/" :
+                        label === "Crypto News" ? "/crypto" :
+                        label === "Economic Calendar" ? "/calendar" :
+                        label === "FollowEconomy Pro" ? "/pro" :
+                        `/${label.toLowerCase().replaceAll(' ','-')}`;
+                      return (
+                        <a href={href} key={label} onClick={() => setOpenSheet(false)}>
+                          {label}
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* DOTS */}
+            <div className="sheet-dots" role="tablist" aria-label="Pages">
+              {pages.map((_, i) => (
+                <button
+                  key={i}
+                  className={`dot ${i===page?'active':''}`}
+                  aria-label={`Go to page ${i+1}`}
+                  aria-selected={i===page}
+                  onClick={() => goTo(i)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -59,26 +59,20 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
   padding: 24px;
 }
 
-/* İleride tam genişlik istersen bu sınıfı verirsin */
+/* full-bleed container: desktop geniş */
 .container--fluid{
-  max-width: 1440px;
+  width: 100%;
+  max-width: none;               /* daraltmayı iptal */
   margin: 0 auto;
-  padding-inline: 16px;
-}
-@media (max-width: 1024px){
-  .container--fluid{ padding-inline: 12px; }
-}
-@media (max-width: 768px){
-  .container--fluid{ padding-inline: 10px; }
+  padding-inline: clamp(12px, 2vw, 24px);
 }
 
-/* Yardımcı görünürlük sınıfları */
+/* Görünürlük yardımcıları */
 .desktop-only { display: block; }
-.mobile-only  { display: none; }
-
+.mobile-only { display: none; }
 @media (max-width: 768px){
   .desktop-only { display: none !important; }
-  .mobile-only  { display: block !important; }
+  .mobile-only { display: block !important; }
 }
 
 /* TOP HEADER BLOCK (no text) */
@@ -553,6 +547,119 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 
 @media (max-width: 900px) {
   .mainnav { display:none; } /* mobilde nav'ı sade tutalım; ileride hamburger ekleriz */
+}
+
+/* Mobil üst bar */
+.topbar-mobile{
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--bg, #fff);
+  backdrop-filter: blur(8px) saturate(1.1);
+  border-bottom: 1px solid color-mix(in oklab, currentColor 12%, transparent);
+}
+.topbar-mobile .logo-sm{
+  font-weight: 700; font-size: 18px; text-decoration: none;
+}
+.topbar-mobile .m-right{ display:flex; gap:10px; align-items:center; }
+.icon-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:34px; height:34px; border-radius:10px;
+  border: 1px solid color-mix(in oklab, currentColor 12%, transparent);
+  background: color-mix(in oklab, currentColor 2%, transparent);
+}
+
+/* Mobil alt sekme çubuğu (app-like) */
+.bottom-nav{
+  position: sticky; bottom: 0; z-index: 59;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 8px; padding: 8px 10px;
+  background: var(--bg, #fff);
+  border-top: 1px solid color-mix(in oklab, currentColor 12%, transparent);
+}
+.bottom-nav .tab{
+  display:flex; align-items:center; justify-content:center;
+  height: 38px; border-radius: 10px;
+  font-size: 13px; text-decoration:none;
+  border: 1px solid color-mix(in oklab, currentColor 10%, transparent);
+  background: color-mix(in oklab, currentColor 2%, transparent);
+}
+.bottom-nav .more{ font-weight: 600; }
+
+/* Mobil sheet */
+.sheet-backdrop{
+  position: fixed; inset: 0; background: rgba(0,0,0,.3);
+  z-index: 70; display:flex; justify-content:center; align-items:flex-end;
+}
+.sheet{
+  width: 100%; max-width: 520px; max-height: 80vh;
+  background: var(--bg, #fff); border-top-left-radius: 16px; border-top-right-radius: 16px;
+  padding: 12px 14px; box-shadow: 0 -10px 40px rgba(0,0,0,.2);
+  overflow: auto;
+}
+.sheet-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.sheet-body{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; padding-bottom:8px; }
+.sheet-body a{
+  padding:10px 12px; border-radius:10px; text-decoration:none;
+  border:1px solid color-mix(in oklab, currentColor 10%, transparent);
+  background: color-mix(in oklab, currentColor 2%, transparent);
+  font-size:14px;
+}
+
+/* Sayfalı pager */
+.sheet-pager{
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  display: flex;
+  gap: 0;               /* sayfalar bitişik */
+  -webkit-overflow-scrolling: touch;
+}
+.sheet-page{
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  padding: 8px 2px 4px;
+}
+
+/* 2 sütun x 4 satır (8 link/sayfa) */
+.sheet-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 6px 4px 12px;
+}
+.sheet-grid a{
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 14px;
+  border: 1px solid color-mix(in oklab, currentColor 10%, transparent);
+  background: color-mix(in oklab, currentColor 2%, transparent);
+}
+
+/* Dots göstergesi */
+.sheet-dots{
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 6px 0 2px;
+}
+.sheet-dots .dot{
+  width: 8px; height: 8px; border-radius: 50%;
+  border: none;
+  background: color-mix(in oklab, currentColor 30%, transparent);
+  opacity: .5;
+}
+.sheet-dots .dot.active{
+  width: 18px; height: 8px; border-radius: 999px;
+  opacity: 1;
+  background: currentColor;
+}
+
+/* Masaüstünde bu mobil elemanlar görünmez (zaten .mobile-only ile kapalı) */
+@media (min-width: 769px){
+  .topbar-mobile, .bottom-nav, .sheet-backdrop{ display:none; }
 }
 
 /* ===== BREAKING NEWS ===== */
