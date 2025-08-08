@@ -55,7 +55,21 @@ export default function Home() {
       {/* Sol sütun */}
       <section className="below">
         <aside className="left-rail">
-          {/* temizlendi — birazdan yeni CryptoGrid eklenecek */}
+          <TreemapHeatmap
+            title="Crypto Heatmap"
+            endpoint="/api/mosaic/crypto-v2"   // ← yeni versiyonlu endpoint
+            cols={4}
+            rows={4}
+            rowHeight={56}
+            symbolsOrder={[
+              'BTC','ETH','SOL','XRP',          // 1. sıra
+              'BNB','AVAX','HBAR','ADA',        // 2. sıra
+              'XLM','DOGE','LINK','AAVE',       // 3. sıra
+              'ENA','TRX','DOT','SUI'           // 4. sıra
+            ]}
+          />
+
+          {/* hisseyi sonra düzeltiriz */}
         </aside>
         <div className="main-rail">{/* ileri içerik */}</div>
       </section>
