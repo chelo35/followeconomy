@@ -568,23 +568,3 @@ html:not(.dark) .tm-sym, html:not(.dark) .tm-ch, html:not(.dark) .tm-price{ colo
 @media (max-width: 900px) {
   .mainnav { display:none; } /* mobilde nav'ı sade tutalım; ileride hamburger ekleriz */
 }
-
-/* ---- CryptoGrid ---- */
-.cg{ border:1px solid var(--border-light); border-radius:14px; background:var(--surface-1); padding:10px; }
-.dark .cg{ border-color:var(--border-dark); background:linear-gradient(180deg, var(--surface-dark), #2b2e33); }
-.cg-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-.cg-head h3{ margin:0; font-size:14px; }
-.cg-ts{ font-size:11px; opacity:.65; }
-
-.cg-grid{ display:grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 56px; gap:8px; }
-.cg-tile{ border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:8px; overflow:hidden; }
-.dark .cg-tile{ border-color:rgba(255,255,255,.08); }
-.cg-row{ display:flex; justify-content:space-between; gap:6px; }
-.cg-sym,.cg-ch,.cg-price{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-html.dark .cg-sym, html.dark .cg-ch, html.dark .cg-price{ color:#fff; text-shadow:0 0 1px rgba(0,0,0,.6); }
-html:not(.dark) .cg-sym, html:not(.dark) .cg-ch, html:not(.dark) .cg-price{ color:#0d1117; text-shadow:0 0 1px rgba(0,0,0,.25); }
-.cg-sym{ font-weight:800; font-size:13px; }
-.cg-ch{ font-variant-numeric:tabular-nums; font-size:12px; }
-.cg-price{ font-variant-numeric:tabular-nums; font-size:13px; font-weight:700; }
-.cg-tile.up{ box-shadow: inset 0 0 0 1px rgba(46,204,113,.25); background: rgba(46,204,113,.12); }
-.cg-tile.down{ box-shadow: inset 0 0 0 1px rgba(231,76,60,.25); background: rgba(231,76,60,.12); }
