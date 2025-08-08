@@ -2,128 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==== Color Tokens: Light (Apple-ish) & Dark (Discord-ish) ==== */
 :root {
-  /* Light Mode (Apple Style) */
+  /* Light */
   --primary-light: #007aff;
-  --primary-light-hover: #0056cc;
   --secondary-light: #5ac8fa;
   --background-light: #ffffff;
   --surface-light: #f2f2f7;
-  --surface-light-hover: #e5e5ea;
   --text-light: #1d1d1f;
   --text-secondary-light: #8e8e93;
   --success-light: #30d158;
   --danger-light: #ff3b30;
-  --warning-light: #ff9500;
   --border-light: #d1d1d6;
-  --shadow-light: 0 4px 20px rgba(0,0,0,0.05);
-  --shadow-light-hover: 0 10px 40px rgba(0,0,0,0.1);
-  
-  /* Dark Mode (Discord Style) */
+
+  /* Dark */
   --primary-dark: #5865f2;
-  --primary-dark-hover: #4752c4;
   --secondary-dark: #7289da;
   --background-dark: #2c2f33;
   --surface-dark: #36393f;
-  --surface-dark-hover: #40444b;
   --text-dark: #ffffff;
   --text-secondary-dark: #b9bbbe;
   --success-dark: #43b581;
   --danger-dark: #f04747;
-  --warning-dark: #faa61a;
   --border-dark: #4f545c;
-  --shadow-dark: 0 4px 20px rgba(0,0,0,0.2);
-  --shadow-dark-hover: 0 10px 40px rgba(0,0,0,0.3);
 }
 
-/* Light Theme Variables */
-[data-theme="light"] {
-  --primary: var(--primary-light);
-  --primary-hover: var(--primary-light-hover);
-  --secondary: var(--secondary-light);
-  --background: var(--background-light);
-  --surface: var(--surface-light);
-  --surface-hover: var(--surface-light-hover);
-  --text-primary: var(--text-light);
-  --text-secondary: var(--text-secondary-light);
-  --success: var(--success-light);
-  --danger: var(--danger-light);
-  --warning: var(--warning-light);
-  --border: var(--border-light);
-  --shadow: var(--shadow-light);
-  --shadow-hover: var(--shadow-light-hover);
-}
-
-/* Dark Theme Variables */
-[data-theme="dark"] {
-  --primary: var(--primary-dark);
-  --primary-hover: var(--primary-dark-hover);
-  --secondary: var(--secondary-dark);
-  --background: var(--background-dark);
-  --surface: var(--surface-dark);
-  --surface-hover: var(--surface-dark-hover);
-  --text-primary: var(--text-dark);
-  --text-secondary: var(--text-secondary-dark);
-  --success: var(--success-dark);
-  --danger: var(--danger-dark);
-  --warning: var(--warning-dark);
-  --border: var(--border-dark);
-  --shadow: var(--shadow-dark);
-  --shadow-hover: var(--shadow-dark-hover);
-}
+/* Base */
+html, body { height: 100%; }
+* { box-sizing: border-box; }
 
 body {
-  background-color: var(--background);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  transition: background-color .3s ease, color .3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Custom Utility Classes */
-@layer utilities {
-  .theme-surface {
-    background-color: var(--surface);
-    border: 1px solid var(--border);
-  }
-  
-  .theme-text-primary {
-    color: var(--text-primary);
-  }
-  
-  .theme-text-secondary {
-    color: var(--text-secondary);
-  }
-  
-  .theme-shadow {
-    box-shadow: var(--shadow);
-  }
-  
-  .theme-shadow-hover:hover {
-    box-shadow: var(--shadow-hover);
-  }
-  
-  .theme-border {
-    border-color: var(--border);
-  }
-  
-  .theme-primary-bg {
-    background-color: var(--primary);
-  }
-  
-  .theme-primary-bg:hover {
-    background-color: var(--primary-hover);
-  }
-  
-  .theme-success {
-    color: var(--success);
-  }
-  
-  .theme-danger {
-    color: var(--danger);
-  }
-  
-  .theme-warning {
-    color: var(--warning);
-  }
+body.light { background: var(--background-light); color: var(--text-light); }
+body.dark  { background: var(--background-dark);  color: var(--text-dark); }
+
+/* Page container (yazısız; sadece spacing) */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* TOP HEADER BLOCK (no text) */
+.header-block {
+  height: 280px;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.12);
+  border: 1px solid var(--border-light);
+  background:
+    radial-gradient(1200px 300px at 20% -40%, rgba(255,255,255,.35), transparent 60%),
+    radial-gradient(900px 300px at 120% 0%, rgba(255,255,255,.18), transparent 60%),
+    linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+}
+.dark .header-block {
+  border-color: var(--border-dark);
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+  background:
+    radial-gradient(1200px 300px at 20% -40%, rgba(255,255,255,.06), transparent 60%),
+    radial-gradient(900px 300px at 120% 0%, rgba(255,255,255,.04), transparent 60%),
+    linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+}
+
+/* İnce grid kılavuzu (yazısız görsel rehber) */
+.guide { position: relative; isolation: isolate; }
+.guide::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background-image:
+    linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: .08;
+  pointer-events: none;
+}
+.dark .guide::before { opacity: .12; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .header-block { height: 220px; border-radius: 20px; }
 }
