@@ -26,6 +26,7 @@ export default function TopHeader() {
           </div>
         </a>
 
+        {/* LEFT-aligned NAV (Research çıkarıldı) */}
         <nav className="mainnav" aria-label="Main">
           <a className="nav-link" href="#">Markets</a>
           <a className="nav-link" href="#">News</a>
@@ -36,9 +37,9 @@ export default function TopHeader() {
           <a className="nav-link" href="#">Alerts</a>
           <a className="nav-link" href="#">On-chain Data</a>
           <a className="nav-link" href="#">AI Insights</a>
+          <a className="nav-link" href="#">DeFi Yields</a>
           <a className="nav-link" href="#">Derivatives</a>
           <a className="nav-link" href="#">Macro</a>
-          <a className="nav-link" href="#">Research</a> {/* varsa burada ya da Pro slotta */}
         </nav>
 
         {/* Right controls */}
