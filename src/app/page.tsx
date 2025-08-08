@@ -57,24 +57,19 @@ export default function Home() {
         <aside className="left-rail">
           <TreemapHeatmap
             title="Crypto Heatmap"
-            endpoint="/api/mosaic/crypto"
+            endpoint="/api/mosaic/crypto-v2"   // ← yeni versiyonlu endpoint
             cols={4}
             rows={4}
-            rowHeight={56}                       // kutular 2x gibi büyük
+            rowHeight={56}
             symbolsOrder={[
-              // 1. sıra
-              'BTC','ETH','SOL','XRP',
-              // 2. sıra
-              'BNB','AVAX','HBAR','ADA',
-              // 3. sıra
-              'XLM','DOGE','LINK','AAVE',
-              // 4. sıra
-              'ENA','TRX','DOT','SUI'
+              'BTC','ETH','SOL','XRP',          // 1. sıra
+              'BNB','AVAX','HBAR','ADA',        // 2. sıra
+              'XLM','DOGE','LINK','AAVE',       // 3. sıra
+              'ENA','TRX','DOT','SUI'           // 4. sıra
             ]}
           />
 
-          {/* Hisseyi sonra ele alacağız */}
-          <TreemapHeatmap title="US Indices & Majors" endpoint="/api/mosaic/stocks" cols={5} rows={7} />
+          {/* hisseyi sonra düzeltiriz */}
         </aside>
         <div className="main-rail">{/* ileri içerik */}</div>
       </section>
