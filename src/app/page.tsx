@@ -55,9 +55,8 @@ export default function Home() {
       {/* Sol sütun */}
       <section className="below">
         <aside className="left-rail">
-          {/* her ikisi de cols={6} rows={8} → yükseklikleri eşit */}
-          <TreemapHeatmap title="Crypto Heatmap" endpoint="/api/mosaic/crypto" cols={6} rows={8} />
-          <TreemapHeatmap title="US Indices & Majors" endpoint="/api/mosaic/stocks" cols={6} rows={8} />
+          <TreemapHeatmap title="Crypto Treemap" endpoint="/api/mosaic/crypto" cols={8} maxItems={60} />
+          <TreemapHeatmap title="US Mega-Caps Treemap" endpoint="/api/mosaic/stocks" cols={8} maxItems={48} />
         </aside>
         <div className="main-rail">{/* ileri içerik */}</div>
       </section>

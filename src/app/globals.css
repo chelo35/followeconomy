@@ -519,31 +519,32 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .tm-head h3{ margin:0; font-size:14px; }
 .tm-ts{ font-size:11px; opacity:.65; }
 
-/* === Treemap/Uniform Heatmap === */
 .tm-grid{
-  display:grid; gap:6px;
-  grid-auto-flow: dense;
-}
-.tm-grid.uniform{
-  --tm-cols: 6; --tm-rows: 8; --tm-row-h: 36px;
+  --tm-cols: 8;
+  display: grid;
   grid-template-columns: repeat(var(--tm-cols), 1fr);
-  grid-template-rows: repeat(var(--tm-rows), var(--tm-row-h)); /* tüm kutular aynı yükseklik */
+  grid-auto-rows: 32px;                 /* temel hücre boyutu */
+  grid-auto-flow: dense;                /* boşlukları doldur */
+  gap: 6px;
 }
-
 .tm-tile{
   display:flex; flex-direction:column; justify-content:space-between;
   padding:6px; border-radius:10px;
   border:1px solid rgba(0,0,0,.08);
-  overflow:hidden;              /* taşma yok */
-  text-align:left; cursor:pointer;
+  color: inherit; text-align:left;
+  cursor: pointer;
   transition: transform .08s ease, box-shadow .12s ease, background-color .2s ease;
 }
+.tm-tile.up   { box-shadow: inset 0 0 0 1px rgba(46,204,113,.25); }
+.tm-tile.down { box-shadow: inset 0 0 0 1px rgba(231,76,60,.25); }
 .dark .tm-tile{ border-color: rgba(255,255,255,.08); }
-.tm-sym{ font-weight:800; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.tm-price{ font-variant-numeric: tabular-nums; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.tm-ch{ font-variant-numeric: tabular-nums; font-size:11px; }
 
-.tm-tile.is-focus{ outline:2px solid rgba(255,255,255,.45); }
+.tm-tile:hover{ transform: translateY(-1px); }
+.tm-tile.is-focus{ outline: 2px solid rgba(255,255,255,.45); }
+
+.tm-sym{ font-weight:800; font-size:12px; }
+.tm-price{ font-variant-numeric: tabular-nums; font-size:12px; opacity:.9; }
+.tm-ch{ font-variant-numeric: tabular-nums; font-size:11px; }
 
 /* Modal */
 .tm-modal{
