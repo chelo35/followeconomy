@@ -1,7 +1,7 @@
 'use client';
 import TickerRow from '@/components/TickerRow';
 import WidgetBar from '@/components/WidgetBar';
-import MiniHeatmap from '@/components/MiniHeatmap';
+import TreemapHeatmap from '@/components/TreemapHeatmap';
 
 const cryptoItems = [
   { label: 'BTC/USDT',  value: '64,320', change: 1.85 },
@@ -52,13 +52,13 @@ export default function Home() {
       <TickerRow items={cryptoItems} variant="crypto" speed={60} />
       <TickerRow items={globalItems} variant="global" speed={54} />
 
-      {/* NEW: below tickers layout */}
+      {/* Sol sütun */}
       <section className="below">
         <aside className="left-rail">
-          <MiniHeatmap title="Crypto Heatmap" endpoint="/api/crypto" />
-          <MiniHeatmap title="US Mega-Caps Heatmap" endpoint="/api/stocks" />
+          <TreemapHeatmap title="Crypto Treemap" endpoint="/api/mosaic/crypto" cols={8} maxItems={60} />
+          <TreemapHeatmap title="US Mega-Caps Treemap" endpoint="/api/mosaic/stocks" cols={8} maxItems={48} />
         </aside>
-        <div className="main-rail">{/* future content */}</div>
+        <div className="main-rail">{/* ileri içerik */}</div>
       </section>
     </main>
   );
