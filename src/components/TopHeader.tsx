@@ -38,7 +38,7 @@ export default function TopHeader() {
           <a className="nav-link" href="#">AI Insights</a>
           <a className="nav-link" href="#">Derivatives</a>
           <a className="nav-link" href="#">Macro</a>
-          <a className="nav-link" href="#">Research</a> {/* varsa burada ya da Pro slotta */}
+          {/* Research burada OLMAYACAK */}
         </nav>
 
         {/* Right controls */}
@@ -46,9 +46,7 @@ export default function TopHeader() {
           {/* >>> Pro alanı */}
           <div className="pro-slot">
             <a href="/research" className="pro-link">Research</a>
-
-            {/* New: Gold CTA */}
-            <a href="/pro" className="pro-cta" title="FollowEconomy Pro">
+            <a href="/pro" className="pro-cta">
               <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3 8l4 3 5-7 5 7 4-3-2 10H5L3 8z" fill="currentColor"/>
               </svg>
