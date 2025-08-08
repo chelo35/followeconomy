@@ -82,8 +82,46 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 .dark .guide::before { opacity: .12; }
 
+/* ==== Step 2: Yazısız navigasyon şeridi ==== */
+.nav-strip {
+  margin-top: 16px;
+  height: 64px;
+  border-radius: 16px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border-light);
+  background: linear-gradient(180deg, var(--surface-light), #ffffff);
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+.dark .nav-strip {
+  border-color: var(--border-dark);
+  background: linear-gradient(180deg, var(--surface-dark), #2b2e33);
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+}
+
+.nav-pill {
+  width: 88px;
+  height: 40px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-light);
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+  transition: transform .2s ease, background-color .2s ease;
+}
+.nav-pill:hover { transform: translateY(-1px); }
+.dark .nav-pill {
+  border-color: var(--border-dark);
+  background: rgba(255,255,255,.04);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .container { padding: 16px; }
   .header-block { height: 220px; border-radius: 20px; }
+  .nav-strip { height: 56px; padding: 6px 10px; }
+  .nav-pill { width: 72px; height: 36px; }
 }
