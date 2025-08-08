@@ -139,31 +139,23 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 .dark .topbar { background: var(--background-dark); border-color: var(--border-dark); }
 
-/* Topbar */
+/* Topbar layout */
 .topbar-inner{
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 8px 16px;
-  display: flex; align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
 }
 
-.logo { display:flex; align-items:center; gap:10px; text-decoration:none; color: inherit; }
-.logo-text { display:flex; flex-direction:column; line-height:1.05; }
-/* Logo daha kompakt */
-.logo-text strong{ font-size: 17px; }
-.logo-text span{ font-size: 10px; opacity:.65; }
-
-/* NAV — tek satır, SOLA HİZALI, sığdırma modları */
+/* Tek satır, sola hizalı, taşmadan sığması için sıkı ayarlar */
 .mainnav{
   flex: 1 1 auto; min-width: 0;
   display: inline-flex; align-items: center; justify-content: flex-start;
-  gap: 6px; white-space: nowrap; overflow: hidden; /* kaydırma yok */
+  gap: 6px; white-space: nowrap; overflow: hidden; /* kaydırma yok, sığdırıyoruz */
 }
 .nav-link{
-  padding: 5px 8px; border-radius: 10px;
-  text-decoration: none; border: 1px solid transparent;
-  font-size: 13px; line-height: 1;
+  padding: 5px 8px; border-radius: 10px; text-decoration: none;
+  border: 1px solid transparent; font-size: 13px; line-height: 1;
   color: var(--text-light); background: linear-gradient(180deg, var(--surface-light), #fff);
 }
 .nav-link:hover { border-color: var(--border-light); }
@@ -173,40 +165,38 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 .dark .nav-link:hover { border-color: var(--border-dark); }
 
-/* auto-fit: eğer hâlâ sığmıyorsa küçült */
-.mainnav.nav-compact .nav-link{
-  font-size: 12px; padding: 4px 7px;
-}
-.mainnav.nav-ultra .nav-link{
-  font-size: 11px; padding: 3px 6px;
-}
+.logo { display:flex; align-items:center; gap:10px; text-decoration:none; color: inherit; }
+.logo-text { display:flex; flex-direction:column; line-height:1.05; }
+/* Logo metnini de ufalt */
+.logo-text strong{ font-size: 17px; }
+.logo-text span{ font-size: 10px; opacity:.65; }
 
-/* Sağ kontrol grubu tek satır ve sabit genişlikte */
-.topbar-right{ display:flex; align-items:center; gap:8px; flex: 0 0 auto; }
+/* Sağ kontrol grubu tek satır */
+.topbar-right{ display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
 .search{ 
-  height:32px; min-width:160px; width:200px; border-radius:8px;
+  height: 32px; min-width: 160px; width: 200px; border-radius: 8px;
   border:1px solid var(--border-light); background: rgba(255,255,255,.7); padding: 0 10px;
 }
 .dark .search { border-color: var(--border-dark); background: rgba(255,255,255,.08); color: var(--text-dark); }
 
-.btn{ height:32px; padding:0 10px; border-radius:8px; font-size:13px; border:1px solid transparent; cursor:pointer; }
+.btn{ height: 32px; padding: 0 10px; border-radius: 8px; font-size: 13px; border:1px solid transparent; cursor:pointer; }
 .btn.ghost { background: transparent; border-color: var(--border-light); }
 .dark .btn.ghost { border-color: var(--border-dark); color: var(--text-dark); }
 .btn.solid { background: linear-gradient(180deg, var(--primary-light), var(--secondary-light)); color: white; }
 .dark .btn.solid { background: linear-gradient(180deg, var(--primary-dark), var(--secondary-dark)); }
 
-.auth{ display:flex; gap:6px; }
+.auth{ display: flex; gap: 6px; }      /* <-- Log in & Sign up yan yana */
 .lang{ 
-  height:32px; border-radius:8px; border:1px solid var(--border-light); 
+  height: 32px; border-radius: 8px; border:1px solid var(--border-light); 
   background: rgba(255,255,255,.7); padding:0 8px;
 }
 .dark .lang { border-color: var(--border-dark); background: rgba(255,255,255,.08); color: var(--text-dark); }
 
-/* Daha dar ekranlar için ekstra sıkılaşma */
+/* Daha dar ekranlarda biraz daha sıkıştır */
 @media (max-width: 1280px){
   .nav-link{ font-size: 12.5px; padding: 4px 7px; }
-  .search{ width:160px; min-width:140px; }
-  .btn{ padding:0 8px; }
+  .search{ width: 160px; min-width: 140px; }
+  .btn{ padding: 0 8px; }
 }
 
 /* -------- Ticker (single row, smooth) -------- */
