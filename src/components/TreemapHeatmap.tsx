@@ -5,73 +5,65 @@ type Item = {
   symbol: string;
   price?: number;
   changePct: number;
-  weight?: number;        // market cap, volume vs.
+  weight?: number; // mcap/vol gibi – sıralama için
 };
+
+function formatPrice(p?: number) {
+  if (p == null || !isFinite(p)) return '—';
+  const v = Math.abs(p);
+  if (v >= 1000) return Math.round(p).toLocaleString('en-US');
+  if (v >= 100)  return p.toFixed(2);
+  if (v >= 1)    return p.toFixed(2);
+  if (v >= 0.1)  return p.toFixed(3);
+  if (v >= 0.01) return p.toFixed(4);
+  if (v >= 0.001) return p.toFixed(5);
+  if (v >= 0.0001) return p.toFixed(6);
+  if (v >= 0.00001) return p.toFixed(7);
+  if (v >= 0.000001) return p.toFixed(8);
+  return p.toFixed(9);
+}
 
 export default function TreemapHeatmap({
   title,
   endpoint,
-  maxItems = 60,
-  cols = 8,              // sol sütun 380px civarı için 8 iyi; istersen 10-12
+  cols = 6,
+  rows = 8,          // iki widget aynı değerde olsun => aynı yükseklik
   pollMs = 60_000,
-}: {
-  title: string;
-  endpoint: string;
-  maxItems?: number;
-  cols?: number;
-  pollMs?: number;
-}) {
+}: { title: string; endpoint: string; cols?: number; rows?: number; pollMs?: number }) {
   const [items, setItems] = useState<Item[]>([]);
   const [ts, setTs] = useState<number | null>(null);
-  const [focus, setFocus] = useState<string | null>(null);   // tek tık büyüt
-  const [zoom, setZoom] = useState<Item | null>(null);       // çift tık modal
+  const [focus, setFocus] = useState<string | null>(null);
+  const [zoom, setZoom] = useState<Item | null>(null);
 
+  // veri
   useEffect(() => {
     const load = async () => {
       try {
         const r = await fetch(endpoint, { cache: 'no-store' });
         const j = await r.json();
-        const arr: Item[] = (j.items || []).slice(0, maxItems).map((it: any) => ({
+        const arr: Item[] = (j.items || []).map((it: any) => ({
           symbol: String(it.symbol || '').toUpperCase(),
           price: typeof it.price === 'number' ? it.price : undefined,
           changePct: Number(it.changePct || 0),
           weight: Number(it.mcapUsd || it.weight || Math.abs(it.changePct) || 1),
         }));
-        // büyükten küçüğe sırala
+        // ağırlığa göre sırala
         arr.sort((a, b) => (b.weight! - a.weight!));
-        setItems(arr);
+        setItems(arr.slice(0, cols * rows)); // uniform grid ⇒ tam sığacak kadar
         setTs(j.ts ?? Date.now());
-      } catch {
-        // sessizce bırak
-      }
+      } catch {/* sessiz */}
     };
     load();
     const id = setInterval(load, pollMs);
     return () => clearInterval(id);
-  }, [endpoint, maxItems, pollMs]);
+  }, [endpoint, cols, rows, pollMs]);
 
-  // grid span'lerini hesapla (yaklaşık treemap)
-  const tiles = useMemo(() => {
-    if (!items.length) return [];
-    const maxW = Math.max(...items.map(i => i.weight || 1));
-    // Alan ~ weight^gamma ; gamma<1 → küçüklerin de alanı olsun
-    const gamma = 0.6;
-    const base = 1;            // min span
-    const maxSpan = 3;         // 1..3 arası span (grid-auto-flow:dense ile yerleşir)
-    return items.map(i => {
-      const n = Math.pow((i.weight || 1) / maxW, gamma);
-      const span = Math.max(base, Math.round(n * maxSpan));
-      return { ...i, span };
-    });
-  }, [items]);
-
-  const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
   const color = (pct: number) => {
-    // -8..+8 bandında alpha 0.18..0.65
-    const a = 0.18 + (clamp(Math.abs(pct), 0, 8) / 8) * 0.47;
-    const base = pct >= 0 ? '46,204,113' : '231,76,60';
-    return `rgba(${base}, ${a.toFixed(2)})`;
+    const a = Math.min(0.65, 0.18 + Math.min(8, Math.abs(pct)) / 8 * 0.47);
+    return `rgba(${pct >= 0 ? '46,204,113' : '231,76,60'}, ${a.toFixed(2)})`;
   };
+
+  const gridItems = useMemo(() => items, [items]);
 
   return (
     <div className="tm-widget">
@@ -81,34 +73,27 @@ export default function TreemapHeatmap({
       </div>
 
       <div
-        className="tm-grid"
-        style={{ ['--tm-cols' as any]: cols }}
+        className="tm-grid uniform"
+        style={{ ['--tm-cols' as any]: cols, ['--tm-rows' as any]: rows }}
       >
-        {tiles.map((t) => {
-          const focused = focus === t.symbol;
-          const span = focused ? Math.min(4, (t as any).span + 1) : (t as any).span;
+        {gridItems.map((t) => {
+          const isFocus = focus === t.symbol;
           return (
             <button
               key={t.symbol}
-              className={`tm-tile ${focused ? 'is-focus' : ''} ${t.changePct >= 0 ? 'up' : 'down'}`}
+              className={`tm-tile ${isFocus ? 'is-focus' : ''} ${t.changePct >= 0 ? 'up':'down'}`}
               style={{
-                gridColumn: `span ${span}`,
-                gridRow: `span ${span}`,
+                gridColumn: `span ${isFocus ? 2 : 1}`,
+                gridRow:    `span ${isFocus ? 2 : 1}`,
                 background: color(t.changePct),
               }}
               title={t.symbol}
-              onClick={() => setFocus(focused ? null : t.symbol)}
+              onClick={() => setFocus(isFocus ? null : t.symbol)}
               onDoubleClick={() => setZoom(t)}
             >
-              <div className="tm-sym">{t.symbol}</div>
-              <div className="tm-price">
-                {typeof t.price === 'number'
-                  ? (t.price >= 100 ? t.price.toFixed(0) : t.price.toFixed(3))
-                  : '—'}
-              </div>
-              <div className="tm-ch">
-                {t.changePct >= 0 ? '▲' : '▼'} {Math.abs(t.changePct).toFixed(2)}%
-              </div>
+              <div className="tm-sym" title={t.symbol}>{t.symbol}</div>
+              <div className="tm-price" title={String(t.price ?? '')}>{formatPrice(t.price)}</div>
+              <div className="tm-ch">{t.changePct >= 0 ? '▲':'▼'} {Math.abs(t.changePct).toFixed(2)}%</div>
             </button>
           );
         })}
@@ -125,13 +110,8 @@ export default function TreemapHeatmap({
               <div className={`tm-modal-badge ${zoom.changePct >= 0 ? 'up' : 'down'}`}>
                 {zoom.changePct >= 0 ? '▲' : '▼'} {Math.abs(zoom.changePct).toFixed(2)}%
               </div>
-              <div className="tm-modal-price">
-                {typeof zoom.price === 'number'
-                  ? (zoom.price >= 100 ? zoom.price.toFixed(0) : zoom.price.toFixed(3))
-                  : '—'}
-              </div>
-              <p className="tm-hint">Double-click from the grid to open; click outside to close.</p>
-              {/* Buraya ileride minichart koyarız */}
+              <div className="tm-modal-price">{formatPrice(zoom.price)}</div>
+              <p className="tm-hint">Click outside to close. (Mini chart soon)</p>
             </div>
           </div>
         </div>

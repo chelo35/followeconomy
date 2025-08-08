@@ -2,52 +2,70 @@ import { NextResponse } from 'next/server';
 export const revalidate = 60;
 export const dynamic = 'force-dynamic';
 
-const TICKERS = [
-  'AAPL','MSFT','NVDA','GOOGL','GOOG','AMZN','META','TSLA','BRK.B','JPM',
-  'V','MA','UNH','LLY','XOM','CVX','WMT','HD','BAC','KO','PEP','AVGO','COST',
-  'ADBE','NFLX','INTC','ORCL','AMD','CSCO','CRM','PFE','MRK','TMO','ABT','NKE',
-  'DIS','MCD','CAT','GE','HON','QCOM','TXN','AMAT','BX','GS','MS','PYPL'
-]; // ~50
+const MAJORS = [
+  'AAPL','MSFT','NVDA','AMZN','GOOGL','GOOG','META','TSLA','BRK.B','AVGO',
+  'JPM','V','MA','UNH','LLY','XOM','CVX','WMT','HD','KO','PEP','COST','ADBE','NFLX','ORCL','AMD','INTC','CSCO','CRM'
+];
+// Stooq endeks tahminleri – olmazsa mock düşer
+const INDEX_CANDIDATES = [
+  ['spx','ndx','dji'],    // set-1
+  ['^spx','^ndx','^dji']  // set-2
+];
 
-// ~yaklaşık mcap (USD) — boşsa price change abs'ı kullanır
-const WEIGHT_HINT: Record<string, number> = {
-  AAPL: 3.5e12, MSFT: 3.7e12, NVDA: 3.1e12, GOOGL: 2.1e12, AMZN: 2.0e12,
-  META: 1.3e12, TSLA: 8.2e11, 'BRK.B': 9.0e11, JPM: 5.0e11, V: 5.7e11, MA: 5.0e11,
-  UNH: 4.7e11, LLY: 1.2e12, XOM: 4.4e11, CVX: 2.9e11, WMT: 5.0e11, HD: 3.0e11,
-  BAC: 2.8e11, KO: 2.6e11, PEP: 2.2e11, AVGO: 7.0e11, COST: 3.6e11,
-};
-
-function chunk<T>(arr: T[], size: number) {
-  const out: T[][] = [];
-  for (let i=0;i<arr.length;i+=size) out.push(arr.slice(i, i+size));
-  return out;
-}
-
-function parse(csv: string) {
+function parseCSV(csv: string) {
   const lines = csv.trim().split('\n').slice(1);
   return lines.map(l => {
     const [symbol, , , open, , , close] = l.split(',');
     const sym = (symbol || '').replace('.US','').toUpperCase();
     const c = parseFloat(close); const o = parseFloat(open);
     const chg = isFinite(c) && isFinite(o) && o !== 0 ? ((c - o) / o) * 100 : 0;
-    return { symbol: sym, price: c, changePct: chg, mcapUsd: WEIGHT_HINT[sym] || undefined };
+    return { symbol: sym, price: c, changePct: chg };
   });
+}
+
+async function stooqFetch(symbols: string[]) {
+  const url = `https://stooq.com/q/l/?s=${symbols.join(',')}&f=sd2t2ohlcv&h&e=csv`;
+  const r = await fetch(url, { next: { revalidate: 60 } });
+  if (!r.ok) throw new Error(String(r.status));
+  return parseCSV(await r.text());
 }
 
 export async function GET() {
   try {
-    const chunks = chunk(TICKERS, 40); // URL limiti
-    const results: any[] = [];
-    for (const part of chunks) {
-      const url = `https://stooq.com/q/l/?s=${part.map(t=>t.toLowerCase()+'.us').join(',')}&f=sd2t2ohlcv&h&e=csv`;
-      const r = await fetch(url, { next: { revalidate: 60 } });
-      if (!r.ok) throw new Error(String(r.status));
-      results.push(...parse(await r.text()));
+    // hisseler
+    const stocks = await stooqFetch(MAJORS.map(s => s.toLowerCase() + '.us'));
+
+    // endeksler – iki farklı formatı dene
+    let indices: any[] = [];
+    for (const cand of INDEX_CANDIDATES) {
+      try {
+        indices = await stooqFetch(cand);
+        if (indices.length) break;
+      } catch {}
     }
-    return NextResponse.json({ items: results, ts: Date.now() });
+    // ağırlaştırma (sıralama için)
+    const WEIGHT_HINT: Record<string, number> = {
+      GSPC: 1e13, SPX: 1e13, NDX: 8e12, DJI: 7e12,
+      AAPL: 3.5e12, MSFT: 3.7e12, NVDA: 3.1e12, AMZN: 2.0e12, META: 1.3e12
+    };
+
+    const normalize = (arr: any[]) =>
+      arr.map((x) => ({
+        symbol: x.symbol,
+        price: x.price,
+        changePct: x.changePct,
+        mcapUsd: WEIGHT_HINT[x.symbol] || undefined
+      }));
+
+    const items = [...normalize(indices), ...normalize(stocks)];
+    return NextResponse.json({ items, ts: Date.now() });
   } catch {
-    // kısa mock
     const items = [
+      // Endeksler
+      { symbol:'S&P 500', price:5592, changePct:0.31, mcapUsd:1e13 },
+      { symbol:'Nasdaq 100', price:18321, changePct:0.48, mcapUsd:8e12 },
+      { symbol:'Dow Jones', price:40102, changePct:-0.05, mcapUsd:7e12 },
+      // Majörler
       { symbol:'AAPL', price:226.3, changePct:0.72, mcapUsd:3.5e12 },
       { symbol:'MSFT', price:457.0, changePct:-0.10, mcapUsd:3.7e12 },
       { symbol:'NVDA', price:126.7, changePct:-0.40, mcapUsd:3.1e12 },
