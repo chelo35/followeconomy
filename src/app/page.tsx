@@ -38,9 +38,9 @@ const globalItems = [
   { label: 'TSLA', value: '259.44', change: 1.62 },
   { label: 'NVDA', value: '126.70', change: -0.40 },
   // Metals / Energy (EN)
-  { label: 'Gold (oz)',       value: '2,402', change: 0.28 },
-  { label: 'Silver (oz)',     value: '30.90', change: -0.55 },
-  { label: 'Natural Gas',     value: '2.18',  change: 0.41 },
+  { label: 'Gold',       value: '2,402', change: 0.28 },
+  { label: 'Silver',     value: '30.90', change: -0.55 },
+  { label: 'Natural Gas',value: '2.18',  change: 0.41 },
   { label: 'Brent Crude Oil', value: '84.70', change: -0.22 },
 ];
 

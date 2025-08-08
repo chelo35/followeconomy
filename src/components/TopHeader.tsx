@@ -8,7 +8,7 @@ export default function TopHeader() {
   return (
     <header className="topbar">
       <div className="topbar-inner">
-        {/* Logo + domain */}
+        {/* Logo */}
         <a href="/" className="logo" aria-label="FollowEconomy">
           <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
             <defs>
@@ -26,7 +26,7 @@ export default function TopHeader() {
           </div>
         </a>
 
-        {/* Main nav (EN) */}
+        {/* LEFT-aligned, single-row nav (scrolls horizontally if overflow) */}
         <nav className="mainnav" aria-label="Main">
           <a className="nav-link" href="#">Markets</a>
           <a className="nav-link" href="#">News</a>
@@ -35,9 +35,15 @@ export default function TopHeader() {
           <a className="nav-link" href="#">Charts</a>
           <a className="nav-link" href="#">Watchlist</a>
           <a className="nav-link" href="#">Alerts</a>
+          <a className="nav-link" href="#">On-chain Data</a>
+          <a className="nav-link" href="#">AI Insights</a>
+          <a className="nav-link" href="#">DeFi Yields</a>
+          <a className="nav-link" href="#">Derivatives</a>
+          <a className="nav-link" href="#">Macro</a>
+          <a className="nav-link" href="#">Research</a>
         </nav>
 
-        {/* Search + Controls */}
+        {/* Right controls */}
         <div className="topbar-right">
           <input className="search" placeholder="Search on site…" aria-label="Search" />
           <ThemeToggle />
@@ -45,12 +51,7 @@ export default function TopHeader() {
             <button className="btn ghost">Log in</button>
             <button className="btn solid">Sign up</button>
           </div>
-          <select
-            className="lang"
-            aria-label="Language"
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-          >
+          <select className="lang" aria-label="Language" value={lang} onChange={(e)=>setLang(e.target.value)}>
             <option value="en">EN</option>
             <option value="tr">TR</option>
           </select>
