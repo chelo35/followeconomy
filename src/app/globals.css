@@ -164,7 +164,7 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .mainnav{
   min-width: 0;                          /* 1fr kolonun daralabilmesi için şart */
   display: flex; align-items: center; justify-content: flex-start;
-  flex-wrap: nowrap; white-space: nowrap; overflow: hidden;
+  flex-wrap: nowrap; white-space: nowrap; overflow: visible;
   gap: 6px;
 }
 .nav-link{
@@ -186,14 +186,12 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .topbar-right{ display:flex; align-items:center; gap:8px; }
 
 /* --- Pro area --- */
-.pro-slot{ display:flex; align-items:center; gap:8px; margin-right:6px; flex-shrink: 0; }
+.pro-slot{ display:flex; align-items:center; gap:10px; margin-right:6px; }
 .pro-link{
-  padding:5px 9px; border-radius:10px; text-decoration:none;
+  padding:6px 10px; border-radius:10px; text-decoration:none;
   border:1px solid var(--border-light);
   background: linear-gradient(180deg, var(--surface-light), #fff);
   color: var(--text-light);
-  font-size: 12.5px;
-  line-height: 1;
 }
 .pro-link:hover { border-color: var(--border-light); }
 .dark .pro-link{
@@ -206,7 +204,7 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 /* Gold CTA button */
 .pro-cta{
   display:inline-flex; align-items:center; gap:8px;
-  padding:6px 12px; border-radius:9999px; text-decoration:none;
+  padding:7px 14px; border-radius:9999px; text-decoration:none;
   border:1px solid rgba(145,116,15,.55);
   color:#2b1b00;
   background: linear-gradient(180deg,#ffefb0,#f6cf57 45%,#d5a51c 70%,#b88700);
@@ -214,15 +212,13 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
     inset 0 1px 0 rgba(255,255,255,.6),
     0 6px 14px rgba(184,135,0,.25);
   transition: transform .12s ease, box-shadow .12s ease;
-  font-size: 12.5px;
-  line-height: 1;
 }
 .pro-cta svg{
   color: #2b1b00;
 }
-.pro-cta span{ font-size: 12px; font-weight: 600; }
+.pro-cta span{ font-weight:600; }
 .pro-cta strong{
-  font-size: 13px; letter-spacing: .2px; font-weight: 800;
+  letter-spacing:.3px; font-weight:800;
 }
 .dark .pro-cta{ color:#1b1200; }
 
@@ -444,12 +440,6 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
   border-color: rgba(145,116,15,.55);
   background: linear-gradient(180deg,#ffefb0,#f6cf57 45%,#d5a51c 70%,#b88700);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 18px rgba(184,135,0,.28);
-}
-
-/* Ekran daralınca biraz daha sıkılsın (gözle fark edilmeyecek kadar) */
-@media (max-width: 1440px){
-  .pro-cta{ padding: 6px 10px; font-size: 12.25px; }
-  .pro-link{ padding: 5px 8px; }
 }
 
 @media (max-width: 900px) {
