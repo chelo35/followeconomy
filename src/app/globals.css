@@ -185,7 +185,7 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 /* Sağ kontrol grubu — YAN YANA ve kompakt */
 .topbar-right{ display:flex; align-items:center; gap:8px; }
 
-/* --- Pro area --- */
+/* --- Pro alanı (Research + Pro rozeti) --- */
 .pro-slot{ display:flex; align-items:center; gap:10px; margin-right:6px; }
 .pro-link{
   padding:6px 10px; border-radius:10px; text-decoration:none;
@@ -201,34 +201,28 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 .dark .pro-link:hover { border-color: var(--border-dark); }
 
-/* Gold CTA button */
-.pro-cta{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:7px 14px; border-radius:9999px; text-decoration:none;
-  border:1px solid rgba(145,116,15,.55);
-  color:#2b1b00;
-  background: linear-gradient(180deg,#ffefb0,#f6cf57 45%,#d5a51c 70%,#b88700);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.6),
-    0 6px 14px rgba(184,135,0,.25);
-  transition: transform .12s ease, box-shadow .12s ease;
+/* Pro badge */
+.pro-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius:9999px; text-decoration:none;
+  border:1px solid var(--border-light);
+  background: rgba(255,255,255,.75);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
 }
-.pro-cta svg{
-  color: #2b1b00;
+.dark .pro-badge{
+  border-color: var(--border-dark);
+  background: rgba(255,255,255,.08);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
 }
-.pro-cta span{ font-weight:600; }
-.pro-cta strong{
-  letter-spacing:.3px; font-weight:800;
-}
-.dark .pro-cta{ color:#1b1200; }
+.pro-brand{ font-weight:600; opacity:.9; }
 
-.pro-cta:hover{
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.7),
-    0 10px 20px rgba(184,135,0,.35);
+/* Altın renkli "Pro" metni */
+.pro-gold{
+  font-weight:800;
+  background: linear-gradient(180deg, #ffe79a, #f3c543 40%, #d7a81e 70%, #b58900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.pro-cta:active{ transform: translateY(0); }
 .search{ 
   height:32px; width:170px; min-width:150px; border-radius:8px;
   border:1px solid var(--border-light); background: rgba(255,255,255,.7); padding: 0 10px;
@@ -354,93 +348,6 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 
 .spacer { height: 40vh; }
-
-/* ---- Pricing ---- */
-.pricing-hero{
-  text-align:center; margin: 24px 0 10px;
-}
-.pricing-hero h1{ font-size: 34px; margin: 0 0 6px; }
-.pricing-hero p {
-  font-size: 16px;
-  opacity: 0.8;
-  max-width: 600px;
-  margin: 0 auto;
-}
-.gold{
-  background: linear-gradient(180deg,#ffefb0,#f6cf57 45%,#d5a51c 70%,#b88700);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-}
-
-.pricing-grid{
-  display:grid; gap:14px; margin-top: 12px;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-}
-@media (max-width: 980px){
-  .pricing-grid{ grid-template-columns: 1fr; }
-}
-
-.pricing-card{
-  position:relative;
-  border:1px solid var(--border-light);
-  border-radius:16px; padding:16px;
-  background: linear-gradient(180deg, var(--surface-light), #fff);
-  box-shadow: 0 10px 26px rgba(0,0,0,.08);
-}
-.dark .pricing-card{
-  border-color: var(--border-dark);
-  background: linear-gradient(180deg, var(--surface-dark), #2b2e33);
-  box-shadow: 0 12px 28px rgba(0,0,0,.35);
-}
-
-.pricing-card.is-popular {
-  border-color: rgba(212, 175, 55, 0.5);
-  box-shadow: 0 12px 28px rgba(212, 175, 55, 0.15);
-}
-.dark .pricing-card.is-popular {
-  box-shadow: 0 12px 28px rgba(212, 175, 55, 0.25);
-}
-
-.pricing-card .popular{
-  position:absolute; top:12px; right:12px;
-  font-size:12px; padding:4px 8px; border-radius:9999px;
-  background: rgba(255,215,0,.15);
-  border:1px solid rgba(145,116,15,.35);
-  color: var(--text-light);
-}
-.dark .pricing-card .popular{
-  color: var(--text-dark);
-}
-
-.pricing-head{ display:flex; align-items:end; justify-content:space-between; margin-bottom: 12px; }
-.pricing-head h3{ margin:0; font-size:18px; }
-.price{ display:flex; align-items:baseline; gap:4px; }
-.price .amount{ font-size:28px; font-weight:800; }
-.price .period{ opacity:.7; }
-
-.features{ list-style:none; padding:0; margin:12px 0 16px; display:grid; gap:8px; }
-.features li::before{ content:'✓'; margin-right:8px; opacity:.8; }
-
-.pricing-cta{
-  display:inline-block; text-align:center;
-  width:100%; padding:10px 12px; border-radius:10px;
-  border:1px solid var(--border-light);
-  background: linear-gradient(180deg, var(--surface-light), #fff);
-  text-decoration:none;
-  color: var(--text-light);
-  font-weight: 600;
-}
-.dark .pricing-cta{ 
-  border-color: var(--border-dark); 
-  background: linear-gradient(180deg, var(--surface-dark), #2b2e33); 
-  color: var(--text-dark);
-}
-
-.gold-btn{
-  color:#2b1b00;
-  border-color: rgba(145,116,15,.55);
-  background: linear-gradient(180deg,#ffefb0,#f6cf57 45%,#d5a51c 70%,#b88700);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 18px rgba(184,135,0,.28);
-}
 
 @media (max-width: 900px) {
   .mainnav { display:none; } /* mobilde nav'ı sade tutalım; ileride hamburger ekleriz */

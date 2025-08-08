@@ -44,17 +44,12 @@ export default function TopHeader() {
 
         {/* Right controls */}
         <div className="topbar-right">
-          {/* >>> Pro alanı */}
+          {/* >>> Kalpli alan: Research + Pro */}
           <div className="pro-slot">
             <a href="/research" className="pro-link">Research</a>
-
-            {/* New: Gold CTA */}
-            <a href="/pro" className="pro-cta" title="FollowEconomy Pro">
-              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M3 8l4 3 5-7 5 7 4-3-2 10H5L3 8z" fill="currentColor"/>
-              </svg>
-              <span>FollowEconomy</span>
-              <strong>Pro</strong>
+            <a href="/pro" className="pro-badge" title="FollowEconomy Pro">
+              <span className="pro-brand">FollowEconomy</span>
+              <strong className="pro-gold">Pro</strong>
             </a>
           </div>
 
