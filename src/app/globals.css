@@ -520,30 +520,28 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .tm-ts{ font-size:11px; opacity:.65; }
 
 /* === Treemap/Uniform Heatmap === */
-/* Uniform grid: tüm kutular eşit */
+/* Uniform grid: tüm kutular aynı boy */
 .tm-grid.uniform{
-  --tm-cols: 5;              /* 5 sütun → kutular büyür ama widget toplamı küçülür */
-  --tm-rows: 7;              /* 7 satır */
-  --tm-row-h: 40px;          /* 44 → 40 */
+  --tm-cols: 5; --tm-rows: 8; --tm-row-h: 44px;  /* 44px → daha okunur */
   display:grid; gap:8px;
   grid-template-columns: repeat(var(--tm-cols), 1fr);
   grid-template-rows: repeat(var(--tm-rows), var(--tm-row-h));
 }
 
-/* Tile ve yazılar – kontrastlı, taşma yok */
 .tm-tile{
   display:flex; flex-direction:column; justify-content:space-between;
-  padding:8px; border-radius:12px; border:1px solid rgba(0,0,0,.08);
-  cursor:pointer; overflow:hidden; text-align:left;
-  color:#0d1117;                 /* light */
+  padding:8px; border-radius:12px;
+  border:1px solid rgba(0,0,0,.08);
+  overflow:hidden; text-align:left; cursor:pointer;
+  transition: transform .08s ease, box-shadow .12s ease, background-color .2s ease;
 }
-.dark .tm-tile{ border-color:rgba(255,255,255,.08); color:#fff; } /* dark */
-.tm-row{ display:flex; align-items:center; justify-content:space-between; gap:6px; }
-.tm-sym{ font-weight:800; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-shadow: 0 0 1px rgba(0,0,0,.35); }
-.dark .tm-sym{ text-shadow: 0 0 1px rgba(0,0,0,.6); }
-.tm-ch{ font-variant-numeric: tabular-nums; font-size:12px; text-shadow: 0 0 1px rgba(0,0,0,.35); }
-.tm-price{ font-variant-numeric: tabular-nums; font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dark .tm-tile{ border-color: rgba(255,255,255,.08); }
 .tm-tile.is-focus{ outline:2px solid rgba(255,255,255,.45); }
+
+.tm-row{ display:flex; align-items:center; justify-content:space-between; gap:6px; }
+.tm-sym{ font-weight:800; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tm-ch{ font-variant-numeric: tabular-nums; font-size:12px; }
+.tm-price{ font-variant-numeric: tabular-nums; font-size:13px; font-weight:700; }
 
 /* Modal */
 .tm-modal{
