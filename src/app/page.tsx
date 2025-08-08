@@ -1,46 +1,51 @@
-import { CryptoTicker } from '@/components/dashboard/CryptoTicker'
-import { MarketOverview } from '@/components/dashboard/MarketOverview'
-import { FearGreedIndex } from '@/components/dashboard/FearGreedIndex'
-import { TrendingCoins } from '@/components/dashboard/TrendingCoins'
-import { MarketIndices } from '@/components/dashboard/MarketIndices'
-import { QuickTools } from '@/components/dashboard/QuickTools'
-import { LatestNews } from '@/components/dashboard/LatestNews'
-import { EconomicEvents } from '@/components/dashboard/EconomicEvents'
-import { HeroSection } from '@/components/dashboard/HeroSection'
+import { ProfessionalTicker } from '@/components/dashboard/ProfessionalTicker'
+import { FeaturedNews } from '@/components/dashboard/FeaturedNews'
+import { LiveMarkets } from '@/components/dashboard/LiveMarkets'
+import { OnChainData } from '@/components/dashboard/OnChainData'
+import { BinanceData } from '@/components/dashboard/BinanceData'
+import { MarketOverviewSidebar } from '@/components/dashboard/MarketOverviewSidebar'
+import { FearGreedWidget } from '@/components/dashboard/FearGreedWidget'
+import { OnChainMetrics } from '@/components/dashboard/OnChainMetrics'
+import { TradingToolsWidget } from '@/components/dashboard/TradingToolsWidget'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen bg-gray-50">
       {/* Crypto Ticker */}
-      <CryptoTicker />
+      <ProfessionalTicker />
       
-      {/* Hero Section */}
-      <HeroSection />
-      
-      <div className="container mx-auto px-6 py-12 space-y-12">
-        {/* Market Overview Section */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-          <div className="xl:col-span-2">
-            <MarketOverview />
+      {/* Main Dashboard Layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left Content (70%) */}
+          <div className="flex-1 lg:w-3/5 space-y-6">
+            {/* Featured Crypto News Section */}
+            <FeaturedNews />
+            
+            {/* Live Crypto Markets */}
+            <LiveMarkets />
+            
+            {/* OnChain Data Section */}
+            <OnChainData />
+            
+            {/* Binance Data Integration */}
+            <BinanceData />
           </div>
-          <div>
-            <FearGreedIndex />
+
+          {/* Right Sidebar (30%) */}
+          <div className="lg:w-2/5 space-y-6">
+            {/* Fear & Greed Index */}
+            <FearGreedWidget />
+            
+            {/* Market Overview Widgets */}
+            <MarketOverviewSidebar />
+            
+            {/* OnChain Metrics */}
+            <OnChainMetrics />
+            
+            {/* Trading Tools Widgets */}
+            <TradingToolsWidget />
           </div>
-        </div>
-
-        {/* Trending & Indices */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <TrendingCoins />
-          <MarketIndices />
-        </div>
-
-        {/* Trading Tools */}
-        <QuickTools />
-
-        {/* News & Events */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <LatestNews />
-          <EconomicEvents />
         </div>
       </div>
     </div>

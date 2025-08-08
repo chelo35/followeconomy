@@ -1,180 +1,143 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, TrendingUp, Calculator, Calendar, Newspaper, BarChart3, Brain, Zap } from 'lucide-react'
+import { Search, Menu, X, User, Bell, Settings, TrendingUp } from 'lucide-react'
 
 const navItems = [
-  { name: 'Dashboard', href: '/', icon: BarChart3 },
-  { name: 'Markets', href: '/markets', icon: TrendingUp },
-  { name: 'Tools', href: '/tools', icon: Calculator },
-  { name: 'Calendar', href: '/calendar', icon: Calendar },
-  { name: 'News', href: '/news', icon: Newspaper },
-  { name: 'AI Insights', href: '/insights', icon: Brain },
+  { name: 'Markets', href: '/markets' },
+  { name: 'Crypto', href: '/crypto' },
+  { name: 'OnChain', href: '/onchain' },
+  { name: 'Tools', href: '/tools' },
+  { name: 'News', href: '/news' },
+  { name: 'Calendar', href: '/calendar' },
+  { name: 'Analysis', href: '/analysis' },
 ]
 
 export function Header() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
   return (
-    <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass-nav' : 'glass-nav'
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.25, 0.25, 0.25, 0.75] }}
-    >
-      <nav className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative">
-                <motion.div
-                  className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-secondary p-2 neon-glow"
-                  whileHover={{ scale: 1.1 }}
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ rotate: { duration: 20, repeat: Infinity, ease: "linear" } }}
-                >
-                  <TrendingUp className="w-full h-full text-white" />
-                </motion.div>
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-gradient">Follow Economy</h1>
-                <p className="text-xs text-gray-400 -mt-1">Financial Intelligence</p>
-              </div>
-            </Link>
-          </motion.div>
+    <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      {/* Main Header */}
+      <div className="bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center space-x-3">
+                <div className="w-10 h-10 professional-blue-bg rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900">Follow Economy</h1>
+                  <p className="text-xs text-gray-500 -mt-1">Crypto Intelligence</p>
+                </div>
+              </Link>
+            </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item, index) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
-              >
+            {/* Navigation - Desktop */}
+            <nav className="hidden lg:flex space-x-8">
+              {navItems.map((item) => (
                 <Link
+                  key={item.name}
                   href={item.href as any}
-                  className="group flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-all duration-300 hover:bg-white/5"
+                  className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
                 >
-                  <item.icon className="w-4 h-4 group-hover:text-primary transition-colors" />
-                  <span className="font-medium">{item.name}</span>
-                  <motion.div
-                    className="w-0 h-0.5 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-300"
-                    layoutId={`nav-underline-${item.name}`}
-                  />
+                  {item.name}
                 </Link>
-              </motion.div>
-            ))}
+              ))}
+            </nav>
+
+            {/* Search Bar */}
+            <div className="hidden md:flex items-center space-x-4 flex-1 max-w-md mx-8">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search cryptocurrencies..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center space-x-4">
+              {/* Notifications */}
+              <button className="p-2 text-gray-400 hover:text-gray-600 relative">
+                <Bell className="w-5 h-5" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
+              </button>
+
+              {/* Settings */}
+              <button className="p-2 text-gray-400 hover:text-gray-600">
+                <Settings className="w-5 h-5" />
+              </button>
+
+              {/* Auth Buttons */}
+              <div className="hidden md:flex items-center space-x-3">
+                <button className="btn-secondary">
+                  Sign In
+                </button>
+                <button className="btn-primary">
+                  Register
+                </button>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden p-2 text-gray-600"
+              >
+                {isMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* CTA Button */}
-          <motion.div
-            className="hidden lg:block"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <button className="button-glass px-6 py-2 font-medium flex items-center space-x-2">
-              <Zap className="w-4 h-4" />
-              <span>Get Started</span>
-            </button>
-          </motion.div>
-
-          {/* Mobile Menu Button */}
-          <motion.button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden relative p-2 rounded-lg button-glass"
-            whileTap={{ scale: 0.95 }}
-          >
-            <AnimatePresence mode="wait">
-              {isOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X className="w-5 h-5" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu className="w-5 h-5" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
-        </div>
-
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="lg:hidden mt-4 overflow-hidden"
-            >
-              <div className="glass-dark rounded-xl p-4 space-y-2">
-                {navItems.map((item, index) => (
-                  <motion.div
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div className="lg:hidden py-4 border-t border-gray-200">
+              <div className="space-y-2">
+                {navItems.map((item) => (
+                  <Link
                     key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    href={item.href as any}
+                    className="block px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
                   >
-                    <Link
-                      href={item.href as any}
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200"
-                    >
-                      <item.icon className="w-5 h-5 text-primary" />
-                      <span className="font-medium">{item.name}</span>
-                    </Link>
-                  </motion.div>
+                    {item.name}
+                  </Link>
                 ))}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: navItems.length * 0.05 }}
-                  className="pt-2 border-t border-white/10"
-                >
-                  <button className="w-full button-glass px-4 py-3 font-medium flex items-center justify-center space-x-2">
-                    <Zap className="w-4 h-4" />
-                    <span>Get Started</span>
-                  </button>
-                </motion.div>
               </div>
-            </motion.div>
+
+              {/* Mobile Search */}
+              <div className="mt-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search cryptocurrencies..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              {/* Mobile Auth */}
+              <div className="flex space-x-3 mt-4">
+                <button className="flex-1 btn-secondary">Sign In</button>
+                <button className="flex-1 btn-primary">Register</button>
+              </div>
+            </div>
           )}
-        </AnimatePresence>
-      </nav>
-    </motion.header>
+        </div>
+      </div>
+    </div>
   )
 }
