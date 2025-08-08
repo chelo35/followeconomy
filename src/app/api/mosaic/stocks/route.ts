@@ -38,16 +38,18 @@ export async function GET() {
     const stks = await stooq(MAJORS.map(s => s.toLowerCase()+'.us'));
     let items = [...idx, ...stks];
 
-    // 12'den az ise fallback'e zorla
-    if (!items || items.length < 12) throw new Error('too-few');
+    // Stooq boş / kısıtlı dönerse → dolu fallback
+    if (items.length < 12) throw new Error('too-few');
 
-    return NextResponse.json({ items, ts: Date.now() }, { headers:{'Cache-Control':'no-store'}});
+    return NextResponse.json({ items, ts: Date.now() });
   } catch {
     return NextResponse.json({
       items: [
+        // Endeksler
         { symbol:'S&P 500', price:5592, changePct:0.31 },
         { symbol:'Nasdaq 100', price:18321, changePct:0.48 },
         { symbol:'Dow Jones', price:40102, changePct:-0.05 },
+        // 20+ majör hisse
         { symbol:'AAPL', price:226.3, changePct:0.72 }, { symbol:'MSFT', price:457.0, changePct:-0.10 },
         { symbol:'NVDA', price:126.7, changePct:-0.40 }, { symbol:'AMZN', price:204.6, changePct:0.66 },
         { symbol:'META', price:522.0, changePct:0.85 },  { symbol:'TSLA', price:259.4, changePct:1.62 },
@@ -60,7 +62,8 @@ export async function GET() {
         { symbol:'PEP',  price:170.4, changePct:0.15 },  { symbol:'COST', price:870.2, changePct:0.20 },
         { symbol:'ADBE', price:525.4, changePct:0.44 },  { symbol:'ORCL', price:145.7, changePct:0.22 },
       ],
-      ts: Date.now(), mock:true
-    }, { headers:{'Cache-Control':'no-store'}});
+      ts: Date.now(),
+      mock: true
+    });
   }
 }
