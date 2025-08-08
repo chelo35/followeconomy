@@ -520,30 +520,33 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .tm-ts{ font-size:11px; opacity:.65; }
 
 /* === Treemap/Uniform Heatmap === */
-/* Uniform grid: tüm kutular eşit */
+/* Hepsi eşit boy: 5x7 ve biraz daha küçük widget */
 .tm-grid.uniform{
-  --tm-cols: 5;              /* 5 sütun → kutular büyür ama widget toplamı küçülür */
-  --tm-rows: 7;              /* 7 satır */
-  --tm-row-h: 40px;          /* 44 → 40 */
-  display:grid; gap:8px;
+  --tm-cols: 5; --tm-rows: 7; --tm-row-h: 38px;
+  display: grid; gap: 8px;
   grid-template-columns: repeat(var(--tm-cols), 1fr);
   grid-template-rows: repeat(var(--tm-rows), var(--tm-row-h));
 }
 
-/* Tile ve yazılar – kontrastlı, taşma yok */
+/* Kutular */
 .tm-tile{
   display:flex; flex-direction:column; justify-content:space-between;
   padding:8px; border-radius:12px; border:1px solid rgba(0,0,0,.08);
-  cursor:pointer; overflow:hidden; text-align:left;
-  color:#0d1117;                 /* light */
+  overflow:hidden; cursor:pointer; text-align:left;
+  transition: transform .08s ease, box-shadow .12s ease;
 }
-.dark .tm-tile{ border-color:rgba(255,255,255,.08); color:#fff; } /* dark */
-.tm-row{ display:flex; align-items:center; justify-content:space-between; gap:6px; }
-.tm-sym{ font-weight:800; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-shadow: 0 0 1px rgba(0,0,0,.35); }
-.dark .tm-sym{ text-shadow: 0 0 1px rgba(0,0,0,.6); }
-.tm-ch{ font-variant-numeric: tabular-nums; font-size:12px; text-shadow: 0 0 1px rgba(0,0,0,.35); }
-.tm-price{ font-variant-numeric: tabular-nums; font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dark .tm-tile{ border-color: rgba(255,255,255,.08); }
 .tm-tile.is-focus{ outline:2px solid rgba(255,255,255,.45); }
+
+/* Metinler daima okunur */
+.tm-row{ display:flex; align-items:center; justify-content:space-between; gap:6px; }
+.tm-sym, .tm-ch, .tm-price{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html.dark .tm-sym, html.dark .tm-ch, html.dark .tm-price{ color:#fff; text-shadow:0 0 1px rgba(0,0,0,.6); }
+html:not(.dark) .tm-sym, html:not(.dark) .tm-ch, html:not(.dark) .tm-price{ color:#0d1117; text-shadow:0 0 1px rgba(0,0,0,.25); }
+
+.tm-sym{ font-weight:800; font-size:13px; }
+.tm-ch{ font-variant-numeric: tabular-nums; font-size:12px; }
+.tm-price{ font-variant-numeric: tabular-nums; font-size:13px; font-weight:700; }
 
 /* Modal */
 .tm-modal{
