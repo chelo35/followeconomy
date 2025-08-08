@@ -184,6 +184,45 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 
 /* Sağ kontrol grubu — YAN YANA ve kompakt */
 .topbar-right{ display:flex; align-items:center; gap:8px; }
+
+/* --- Pro alanı (Research + Pro rozeti) --- */
+.pro-slot{ display:flex; align-items:center; gap:10px; margin-right:6px; }
+.pro-link{
+  padding:6px 10px; border-radius:10px; text-decoration:none;
+  border:1px solid var(--border-light);
+  background: linear-gradient(180deg, var(--surface-light), #fff);
+  color: var(--text-light);
+}
+.pro-link:hover { border-color: var(--border-light); }
+.dark .pro-link{
+  border-color: var(--border-dark);
+  background: linear-gradient(180deg, var(--surface-dark), #2b2e33);
+  color: var(--text-dark);
+}
+.dark .pro-link:hover { border-color: var(--border-dark); }
+
+/* Pro badge */
+.pro-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius:9999px; text-decoration:none;
+  border:1px solid var(--border-light);
+  background: rgba(255,255,255,.75);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+}
+.dark .pro-badge{
+  border-color: var(--border-dark);
+  background: rgba(255,255,255,.08);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.pro-brand{ font-weight:600; opacity:.9; }
+
+/* Altın renkli "Pro" metni */
+.pro-gold{
+  font-weight:800;
+  background: linear-gradient(180deg, #ffe79a, #f3c543 40%, #d7a81e 70%, #b58900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .search{ 
   height:32px; width:170px; min-width:150px; border-radius:8px;
   border:1px solid var(--border-light); background: rgba(255,255,255,.7); padding: 0 10px;

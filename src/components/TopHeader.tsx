@@ -1,13 +1,13 @@
 'use client';
-import ThemeToggle from './ThemeToggle';
 import { useState } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 export default function TopHeader() {
   const [lang, setLang] = useState('en');
 
   return (
     <header className="topbar">
-      <div className="topbar-inner">
+      <div className="topbar-inner grid">
         {/* Logo */}
         <a href="/" className="logo" aria-label="FollowEconomy">
           <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
@@ -26,7 +26,7 @@ export default function TopHeader() {
           </div>
         </a>
 
-        {/* LEFT-aligned, single-row nav (scrolls horizontally if overflow) */}
+        {/* LEFT-aligned NAV (Research çıkarıldı) */}
         <nav className="mainnav" aria-label="Main">
           <a className="nav-link" href="#">Markets</a>
           <a className="nav-link" href="#">News</a>
@@ -40,11 +40,19 @@ export default function TopHeader() {
           <a className="nav-link" href="#">DeFi Yields</a>
           <a className="nav-link" href="#">Derivatives</a>
           <a className="nav-link" href="#">Macro</a>
-          <a className="nav-link" href="#">Research</a>
         </nav>
 
         {/* Right controls */}
         <div className="topbar-right">
+          {/* >>> Kalpli alan: Research + Pro */}
+          <div className="pro-slot">
+            <a href="/research" className="pro-link">Research</a>
+            <a href="/pro" className="pro-badge" title="FollowEconomy Pro">
+              <span className="pro-brand">FollowEconomy</span>
+              <strong className="pro-gold">Pro</strong>
+            </a>
+          </div>
+
           <input className="search" placeholder="Search on site…" aria-label="Search" />
           <ThemeToggle />
           <div className="auth">
@@ -53,6 +61,7 @@ export default function TopHeader() {
           </div>
           <select className="lang" aria-label="Language" value={lang} onChange={(e)=>setLang(e.target.value)}>
             <option value="en">EN</option>
+            <option value="es">ES</option>
             <option value="tr">TR</option>
           </select>
         </div>
