@@ -2,146 +2,128 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CoinMarketCap Dark Theme */
 :root {
-  --cmc-primary-bg: #1e1932;    /* CoinMarketCap Primary Background */
-  --cmc-secondary-bg: #2d2a46;  /* CoinMarketCap Secondary Background */
-  --cmc-header-bg: #1a1728;     /* CoinMarketCap Header Background */
-  --cmc-text-primary: #ffffff;   /* CoinMarketCap Primary Text */
-  --cmc-text-secondary: #a7a7cc; /* CoinMarketCap Secondary Text */
-  --cmc-accent-blue: #3861fb;    /* CoinMarketCap Accent Blue */
-  --cmc-success-green: #00d4aa;  /* CoinMarketCap Success Green */
-  --cmc-error-red: #ea3943;      /* CoinMarketCap Error Red */
-  --cmc-border: #34314c;         /* CoinMarketCap Border Color */
-  --cmc-hover: #3a3653;          /* CoinMarketCap Hover State */
+  /* Light Mode (Apple Style) */
+  --primary-light: #007aff;
+  --primary-light-hover: #0056cc;
+  --secondary-light: #5ac8fa;
+  --background-light: #ffffff;
+  --surface-light: #f2f2f7;
+  --surface-light-hover: #e5e5ea;
+  --text-light: #1d1d1f;
+  --text-secondary-light: #8e8e93;
+  --success-light: #30d158;
+  --danger-light: #ff3b30;
+  --warning-light: #ff9500;
+  --border-light: #d1d1d6;
+  --shadow-light: 0 4px 20px rgba(0,0,0,0.05);
+  --shadow-light-hover: 0 10px 40px rgba(0,0,0,0.1);
+  
+  /* Dark Mode (Discord Style) */
+  --primary-dark: #5865f2;
+  --primary-dark-hover: #4752c4;
+  --secondary-dark: #7289da;
+  --background-dark: #2c2f33;
+  --surface-dark: #36393f;
+  --surface-dark-hover: #40444b;
+  --text-dark: #ffffff;
+  --text-secondary-dark: #b9bbbe;
+  --success-dark: #43b581;
+  --danger-dark: #f04747;
+  --warning-dark: #faa61a;
+  --border-dark: #4f545c;
+  --shadow-dark: 0 4px 20px rgba(0,0,0,0.2);
+  --shadow-dark-hover: 0 10px 40px rgba(0,0,0,0.3);
 }
 
-/* CoinMarketCap Base Styling */
-* {
-  box-sizing: border-box;
+/* Light Theme Variables */
+[data-theme="light"] {
+  --primary: var(--primary-light);
+  --primary-hover: var(--primary-light-hover);
+  --secondary: var(--secondary-light);
+  --background: var(--background-light);
+  --surface: var(--surface-light);
+  --surface-hover: var(--surface-light-hover);
+  --text-primary: var(--text-light);
+  --text-secondary: var(--text-secondary-light);
+  --success: var(--success-light);
+  --danger: var(--danger-light);
+  --warning: var(--warning-light);
+  --border: var(--border-light);
+  --shadow: var(--shadow-light);
+  --shadow-hover: var(--shadow-light-hover);
 }
 
-html {
-  scroll-behavior: smooth;
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  --primary: var(--primary-dark);
+  --primary-hover: var(--primary-dark-hover);
+  --secondary: var(--secondary-dark);
+  --background: var(--background-dark);
+  --surface: var(--surface-dark);
+  --surface-hover: var(--surface-dark-hover);
+  --text-primary: var(--text-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --success: var(--success-dark);
+  --danger: var(--danger-dark);
+  --warning: var(--warning-dark);
+  --border: var(--border-dark);
+  --shadow: var(--shadow-dark);
+  --shadow-hover: var(--shadow-dark-hover);
 }
 
 body {
-  background-color: var(--cmc-primary-bg);
-  color: var(--cmc-text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* CoinMarketCap Custom Components */
-.cmc-card {
-  background: var(--cmc-secondary-bg);
-  border: 1px solid var(--cmc-border);
-  border-radius: 8px;
-  transition: all 0.2s ease-in-out;
-}
-
-.cmc-card:hover {
-  background: var(--cmc-hover);
-  border-color: #4a4760;
-}
-
-.cmc-button {
-  background: var(--cmc-accent-blue);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.cmc-button:hover {
-  background: #4a73fc;
-  transform: translateY(-1px);
-}
-
-.cmc-table {
-  background: var(--cmc-secondary-bg);
-  border: 1px solid var(--cmc-border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.cmc-table th {
-  background: var(--cmc-header-bg);
-  color: var(--cmc-text-secondary);
-  font-weight: 600;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--cmc-border);
-}
-
-.cmc-table td {
-  padding: 16px;
-  border-bottom: 1px solid var(--cmc-border);
-  color: var(--cmc-text-primary);
-}
-
-.cmc-table tr:hover {
-  background: var(--cmc-hover);
-}
-
-.cmc-table tr:last-child td {
-  border-bottom: none;
-}
-
-/* CoinMarketCap Utility Classes */
-.cmc-text-success { color: var(--cmc-success-green); }
-.cmc-text-error { color: var(--cmc-error-red); }
-.cmc-text-primary { color: var(--cmc-text-primary); }
-.cmc-text-secondary { color: var(--cmc-text-secondary); }
-.cmc-bg-primary { background-color: var(--cmc-primary-bg); }
-.cmc-bg-secondary { background-color: var(--cmc-secondary-bg); }
-.cmc-bg-header { background-color: var(--cmc-header-bg); }
-.cmc-border { border-color: var(--cmc-border); }
-
-/* CoinMarketCap Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--cmc-primary-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--cmc-border);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #4a4760;
-}
-
-/* CoinMarketCap Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.cmc-fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* CoinMarketCap Typography */
-.cmc-heading {
-  color: var(--cmc-text-primary);
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.cmc-subheading {
-  color: var(--cmc-text-secondary);
-  font-weight: 500;
+/* Custom Utility Classes */
+@layer utilities {
+  .theme-surface {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+  }
+  
+  .theme-text-primary {
+    color: var(--text-primary);
+  }
+  
+  .theme-text-secondary {
+    color: var(--text-secondary);
+  }
+  
+  .theme-shadow {
+    box-shadow: var(--shadow);
+  }
+  
+  .theme-shadow-hover:hover {
+    box-shadow: var(--shadow-hover);
+  }
+  
+  .theme-border {
+    border-color: var(--border);
+  }
+  
+  .theme-primary-bg {
+    background-color: var(--primary);
+  }
+  
+  .theme-primary-bg:hover {
+    background-color: var(--primary-hover);
+  }
+  
+  .theme-success {
+    color: var(--success);
+  }
+  
+  .theme-danger {
+    color: var(--danger);
+  }
+  
+  .theme-warning {
+    color: var(--warning);
+  }
 }
