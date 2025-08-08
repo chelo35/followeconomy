@@ -1,6 +1,7 @@
 'use client';
 import TickerRow from '@/components/TickerRow';
 import WidgetBar from '@/components/WidgetBar';
+import MiniHeatmap from '@/components/MiniHeatmap';
 
 const cryptoItems = [
   { label: 'BTC/USDT',  value: '64,320', change: 1.85 },
@@ -50,7 +51,15 @@ export default function Home() {
       <WidgetBar />
       <TickerRow items={cryptoItems} variant="crypto" speed={60} />
       <TickerRow items={globalItems} variant="global" speed={54} />
-      <section className="spacer" aria-hidden="true" />
+
+      {/* NEW: below tickers layout */}
+      <section className="below">
+        <aside className="left-rail">
+          <MiniHeatmap title="Crypto Heatmap" endpoint="/api/crypto" />
+          <MiniHeatmap title="US Mega-Caps Heatmap" endpoint="/api/stocks" />
+        </aside>
+        <div className="main-rail">{/* future content */}</div>
+      </section>
     </main>
   );
 }
