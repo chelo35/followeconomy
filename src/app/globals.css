@@ -28,6 +28,14 @@
 
   /* Layout */
   --container-max: 1440px; /* önce 1200'dü */
+  
+  /* Breakpoints & Dimensions */
+  --bp-desktop: 1024px;
+  --bp-tablet: 768px;
+
+  --z-header: 60;
+  --header-h-desktop: 64px;
+  --header-h-mobile: 56px;
 }
 
 /* Base */
@@ -52,7 +60,26 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 
 /* İleride tam genişlik istersen bu sınıfı verirsin */
-.container--fluid { max-width: 100%; }
+.container--fluid{
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-inline: 16px;
+}
+@media (max-width: 1024px){
+  .container--fluid{ padding-inline: 12px; }
+}
+@media (max-width: 768px){
+  .container--fluid{ padding-inline: 10px; }
+}
+
+/* Yardımcı görünürlük sınıfları */
+.desktop-only { display: block; }
+.mobile-only  { display: none; }
+
+@media (max-width: 768px){
+  .desktop-only { display: none !important; }
+  .mobile-only  { display: block !important; }
+}
 
 /* TOP HEADER BLOCK (no text) */
 .header-block {
@@ -136,6 +163,10 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .topbar {
   background: var(--background-light);
   border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  backdrop-filter: saturate(1.2) blur(8px);
 }
 .dark .topbar { background: var(--background-dark); border-color: var(--border-dark); }
 
@@ -181,6 +212,34 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
   background: linear-gradient(180deg, var(--surface-dark), #2b2e33);
 }
 .dark .nav-link:hover { border-color: var(--border-dark); }
+
+/* Masaüstü davranışını bozma */
+.nav-rail{ display:flex; gap:10px; align-items:center; }
+
+/* Mobilde yatay kaydırma + snap */
+@media (max-width: 768px){
+  .nav-rail{
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    mask-image: linear-gradient(90deg, transparent 0, #0006 14px, #0006 calc(100% - 14px), transparent);
+  }
+  .nav-rail::-webkit-scrollbar{ display:none; }
+  .nav-rail > *{ flex: 0 0 auto; scroll-snap-align: start; }
+
+  /* Pro rozeti mobilde ufalsın, desktop aynı kalsın */
+  .fe-pro-badge{
+    font-size: clamp(12px, 2.6vw, 13px);
+    padding: 6px 10px;
+    border-radius: 999px;
+  }
+
+  /* Arama inputu daha kompakt */
+  .site-search{ width: min(62vw, 380px); height: 36px; }
+}
 
 /* Sağ kontrol grubu — YAN YANA ve kompakt */
 .topbar-right{ display:flex; align-items:center; gap:8px; }
@@ -296,6 +355,27 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .dark .ti-change.up   { color: var(--success-dark); }
 .dark .ti-change.down { color: var(--danger-dark); }
 
+/* mevcut ticker masaüstünde olduğu gibi çalışır */
+.ticker-row{ display:flex; gap:8px; }
+
+/* Mobil: yatay swipe + snap, animasyonsuz akıcı */
+@media (max-width: 768px){
+  .ticker-row{
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .ticker-row::-webkit-scrollbar{ display:none; }
+  .ticker-chip{ flex: 0 0 auto; scroll-snap-align: start; }
+}
+
+/* Hareketi azaltanlar için */
+@media (prefers-reduced-motion: reduce){
+  .ticker-animate{ animation: none !important; }
+}
+
 /* Accessibility: motion azaltma */
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }
@@ -355,6 +435,25 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 /* Desktop tek satıra sığdırma */
 @media (min-width: 1100px){
   .widget-bar{ overflow-x: visible; }
+}
+
+/* Widget Grid Layout */
+.widgets{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 1024px){
+  .widgets{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 768px){
+  .widgets{ grid-template-columns: 1fr; }
+  .widget-card{
+    padding: 12px;
+  }
+  .widget-card .title{
+    font-size: clamp(14px, 3.6vw, 16px);
+  }
 }
 
 .spacer { height: 40vh; }

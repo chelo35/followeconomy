@@ -43,10 +43,10 @@ export default function TickerRow({
   }, [items, speed, repeat]);
 
   return (
-    <div className={`ticker ${variant}`} ref={containerRef}>
-      <div className="ticker-track" ref={trackRef} style={{ width: baseWidth ? `${baseWidth * repeat}px` : undefined }}>
+    <div className={`ticker ticker-row ${variant}`} ref={containerRef}>
+      <div className="ticker-track ticker-animate" ref={trackRef} style={{ width: baseWidth ? `${baseWidth * repeat}px` : undefined }}>
         {extended.map((it, i) => (
-          <div className="ticker-item" key={`${it.label}-${i}`}>
+          <div className="ticker-item ticker-chip" key={`${it.label}-${i}`}>
             <span className="ti-label">{it.label}</span>
             <span className="ti-value">{it.value}</span>
             {typeof it.change === 'number' && (

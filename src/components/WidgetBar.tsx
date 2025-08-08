@@ -19,10 +19,10 @@ export default function WidgetBar() {
   ];
 
   return (
-    <section className="widget-bar" aria-label="Market overview">
+    <section className="widget-bar widgets" aria-label="Market overview">
       {items.map((it) => (
-        <article key={it.title} className="widget widget--tight">
-          <header className="widget-h"><span className="w-title">{it.title}</span></header>
+        <article key={it.title} className="widget widget--tight widget-card">
+          <header className="widget-h"><span className="w-title title">{it.title}</span></header>
           {it.type === 'gauge' ? (
             <div className="gauge">
               <div className="gauge-track"><div className="gauge-fill" style={{ width: `${it.pct}%` }} /></div>

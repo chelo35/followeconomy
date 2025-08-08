@@ -27,18 +27,20 @@ export default function TopHeader() {
         </a>
 
         <nav className="mainnav" aria-label="Main">
-          <a className="nav-link" href="#">Markets</a>
-          <a className="nav-link" href="#">News</a>
-          <a className="nav-link" href="#">Crypto News</a>
-          <a className="nav-link" href="#">Economic Calendar</a>
-          <a className="nav-link" href="#">Charts</a>
-          <a className="nav-link" href="#">Watchlist</a>
-          <a className="nav-link" href="#">Alerts</a>
-          <a className="nav-link" href="#">On-chain Data</a>
-          <a className="nav-link" href="#">AI Insights</a>
-          <a className="nav-link" href="#">Derivatives</a>
-          <a className="nav-link" href="#">Macro</a>
-          {/* Research burada OLMAYACAK */}
+          <div className="nav-rail">
+            <a className="nav-link" href="#">Markets</a>
+            <a className="nav-link" href="#">News</a>
+            <a className="nav-link" href="#">Crypto News</a>
+            <a className="nav-link" href="#">Economic Calendar</a>
+            <a className="nav-link" href="#">Charts</a>
+            <a className="nav-link" href="#">Watchlist</a>
+            <a className="nav-link" href="#">Alerts</a>
+            <a className="nav-link" href="#">On-chain Data</a>
+            <a className="nav-link" href="#">AI Insights</a>
+            <a className="nav-link" href="#">Derivatives</a>
+            <a className="nav-link" href="#">Macro</a>
+            {/* Research burada OLMAYACAK */}
+          </div>
         </nav>
 
         {/* Right controls */}
@@ -46,7 +48,7 @@ export default function TopHeader() {
           {/* >>> Pro alanı */}
           <div className="pro-slot">
             <a href="/research" className="pro-link">Research</a>
-            <a href="/pro" className="pro-cta">
+            <a href="/pro" className="pro-cta fe-pro-badge">
               <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3 8l4 3 5-7 5 7 4-3-2 10H5L3 8z" fill="currentColor"/>
               </svg>
@@ -55,7 +57,7 @@ export default function TopHeader() {
             </a>
           </div>
 
-          <input className="search" placeholder="Search on site…" aria-label="Search" />
+          <input className="search site-search" placeholder="Search on site…" aria-label="Search" />
           <ThemeToggle />
           <div className="auth">
             <button className="btn ghost">Log in</button>
