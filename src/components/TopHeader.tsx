@@ -4,7 +4,7 @@ export default function TopHeader() {
   return (
     <header className="topbar">
       <div className="topbar-inner">
-        {/* Logo */}
+        {/* Logo + domain */}
         <a href="/" className="logo" aria-label="FollowEconomy">
           <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
             <defs>
@@ -22,16 +22,15 @@ export default function TopHeader() {
           </div>
         </a>
 
-        {/* Nav (kripto odaklı) */}
-        <nav className="mainnav" aria-label="Ana menü">
-          <a className="nav-link" href="#">On-Chain Veriler</a>
-          <a className="nav-link" href="#">Kripto Sinyal Botları</a>
-          <a className="nav-link" href="#">Kripto ETF'leri</a>
-          <a className="nav-link" href="#">Coin Haberleri</a>
-          <a className="nav-link" href="#">Geliştirme Güncellemeleri</a>
+        {/* Crypto-focused nav (no dropdowns yet) */}
+        <nav className="mainnav" aria-label="Main">
+          <a className="nav-link" href="#">On-chain Data</a>
+          <a className="nav-link" href="#">Crypto Signal Bots</a>
+          <a className="nav-link" href="#">Crypto ETFs</a>
+          <a className="nav-link" href="#">Coin News</a>
+          <a className="nav-link" href="#">Dev Updates</a>
         </nav>
 
-        {/* Tema */}
         <ThemeToggle />
       </div>
     </header>

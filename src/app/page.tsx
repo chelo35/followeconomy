@@ -31,10 +31,10 @@ export default function Home() {
   return (
     <main className="container">
       {/* Crypto ticker */}
-      <TickerRow items={cryptoItems} variant="crypto" speed={50} />
+      <TickerRow items={cryptoItems} variant="crypto" speed={80} />
 
       {/* Global endeks + majör hisseler + emtia ticker */}
-      <TickerRow items={globalItems} variant="global" speed={45} />
+      <TickerRow items={globalItems} variant="global" speed={70} />
 
       {/* Altta ileride içerik gelecek */}
       <section className="spacer" aria-hidden="true" />
