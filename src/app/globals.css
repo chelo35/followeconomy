@@ -139,31 +139,40 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 .dark .topbar { background: var(--background-dark); border-color: var(--border-dark); }
 
-/* Topbar */
-.topbar-inner{
-  max-width: var(--container-max);
-  margin: 0 auto;
+/* 1) Üst barı tam sola yapıştır (istersen sonra tekrar ortalarız) */
+:root { --topbar-max: 100%; }            /* 100% = ekranın tamamı; 
+                                            merkezli istersen var(--container-max) yaparsın */
+
+/* Grid: [logo] [NAV 1fr] [right] */
+.topbar-inner.grid{
+  max-width: var(--topbar-max);
+  margin: 0;                             /* sola hizala */
   padding: 8px 16px;
-  display: flex; align-items: center;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 10px;
 }
 
 .logo { display:flex; align-items:center; gap:10px; text-decoration:none; color: inherit; }
 .logo-text { display:flex; flex-direction:column; line-height:1.05; }
-/* Logo daha kompakt */
-.logo-text strong{ font-size: 17px; }
-.logo-text span{ font-size: 10px; opacity:.65; }
+/* Logo metnini biraz sıkı tutalım */
+.logo-text strong{ font-size:17px; }
+.logo-text span{ font-size:10px; opacity:.65; }
 
-/* NAV — tek satır, SOLA HİZALI, sığdırma modları */
+/* NAV — tek satır, SOLA hizalı, taşma yok */
 .mainnav{
-  flex: 1 1 auto; min-width: 0;
-  display: inline-flex; align-items: center; justify-content: flex-start;
-  gap: 6px; white-space: nowrap; overflow: hidden; /* kaydırma yok */
+  min-width: 0;                          /* 1fr kolonun daralabilmesi için şart */
+  display: flex; align-items: center; justify-content: flex-start;
+  flex-wrap: nowrap; white-space: nowrap; overflow: visible;
+  gap: 6px;
 }
 .nav-link{
-  padding: 5px 8px; border-radius: 10px;
-  text-decoration: none; border: 1px solid transparent;
+  padding: 4px 8px;
+  border-radius: 10px;
+  border: 1px solid transparent;
   font-size: 13px; line-height: 1;
+  text-decoration: none;
   color: var(--text-light); background: linear-gradient(180deg, var(--surface-light), #fff);
 }
 .nav-link:hover { border-color: var(--border-light); }
@@ -173,41 +182,26 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 .dark .nav-link:hover { border-color: var(--border-dark); }
 
-/* auto-fit: eğer hâlâ sığmıyorsa küçült */
-.mainnav.nav-compact .nav-link{
-  font-size: 12px; padding: 4px 7px;
-}
-.mainnav.nav-ultra .nav-link{
-  font-size: 11px; padding: 3px 6px;
-}
-
-/* Sağ kontrol grubu tek satır ve sabit genişlikte */
-.topbar-right{ display:flex; align-items:center; gap:8px; flex: 0 0 auto; }
+/* Sağ kontrol grubu — YAN YANA ve kompakt */
+.topbar-right{ display:flex; align-items:center; gap:8px; }
 .search{ 
-  height:32px; min-width:160px; width:200px; border-radius:8px;
+  height:32px; width:170px; min-width:150px; border-radius:8px;
   border:1px solid var(--border-light); background: rgba(255,255,255,.7); padding: 0 10px;
 }
 .dark .search { border-color: var(--border-dark); background: rgba(255,255,255,.08); color: var(--text-dark); }
 
+.auth{ display:flex; flex-direction:row; gap:6px; }   /* << stack sorunu biter */
 .btn{ height:32px; padding:0 10px; border-radius:8px; font-size:13px; border:1px solid transparent; cursor:pointer; }
 .btn.ghost { background: transparent; border-color: var(--border-light); }
 .dark .btn.ghost { border-color: var(--border-dark); color: var(--text-dark); }
 .btn.solid { background: linear-gradient(180deg, var(--primary-light), var(--secondary-light)); color: white; }
 .dark .btn.solid { background: linear-gradient(180deg, var(--primary-dark), var(--secondary-dark)); }
 
-.auth{ display:flex; gap:6px; }
 .lang{ 
   height:32px; border-radius:8px; border:1px solid var(--border-light); 
   background: rgba(255,255,255,.7); padding:0 8px;
 }
 .dark .lang { border-color: var(--border-dark); background: rgba(255,255,255,.08); color: var(--text-dark); }
-
-/* Daha dar ekranlar için ekstra sıkılaşma */
-@media (max-width: 1280px){
-  .nav-link{ font-size: 12.5px; padding: 4px 7px; }
-  .search{ width:160px; min-width:140px; }
-  .btn{ padding:0 8px; }
-}
 
 /* -------- Ticker (single row, smooth) -------- */
 .ticker{
