@@ -18,15 +18,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setMounted(true)
     // Load theme from localStorage
-    const savedTheme = localStorage.getItem('theme') as Theme || 'light'
+    const savedTheme = localStorage.getItem('fe-theme') as Theme || 'light'
     setTheme(savedTheme)
   }, [])
 
   useEffect(() => {
     if (mounted) {
-      localStorage.setItem('theme', theme)
-      // Apply theme to document
-      document.documentElement.setAttribute('data-theme', theme)
+      localStorage.setItem('fe-theme', theme)
+      // Apply theme to body class
+      document.body.className = theme
     }
   }, [theme, mounted])
 

@@ -1,27 +1,29 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import { ThemeProvider } from '@/contexts/ThemeContext'
-
-const inter = Inter({ subsets: ['latin'] })
+import './globals.css';
+import type { Metadata } from 'next';
+import Script from 'next/script';
+import TopHeader from '@/components/TopHeader';
 
 export const metadata: Metadata = {
-  title: 'CryptoMarkets Pro - Professional Trading Platform',
-  description: 'Advanced cryptocurrency trading platform with real-time data and professional tools',
-}
+  title: 'FollowEconomy',
+  description: 'Crypto-first global markets hub',
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+    <html lang="tr">
+      <body className="light">
+        {/* Tema bootstrap */}
+        <Script id="fe-theme-loader" strategy="beforeInteractive">{`
+          try {
+            var saved = localStorage.getItem('fe-theme');
+            document.body.className = (saved === 'dark' || saved === 'light') ? saved : 'light';
+          } catch(e) { document.body.className = 'light'; }
+        `}</Script>
+
+        <TopHeader />
+
+        {children}
       </body>
     </html>
-  )
+  );
 }
