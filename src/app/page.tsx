@@ -1,19 +1,15 @@
-import Header from '@/components/layout/Header'
-import TopTicker from '@/components/layout/TopTicker'
-import MainTable from '@/components/sections/MainTable'
-import Sidebar from '@/components/sections/Sidebar'
+import AnimatedTicker from '@/components/layout/AnimatedTicker'
+import GlassmorphismHeader from '@/components/layout/GlassmorphismHeader'
+import MainDashboard from '@/components/sections/MainDashboard'
+import Footer from '@/components/layout/Footer'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#1e1932]">
-      <TopTicker />
-      <Header />
-      <div className="flex">
-        <main className="flex-1 p-6">
-          <MainTable />
-        </main>
-        <Sidebar />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] to-[#1a1a2e] text-white overflow-x-hidden">
+      <GlassmorphismHeader />
+      <AnimatedTicker />
+      <MainDashboard />
+      <Footer />
     </div>
   )
 }
