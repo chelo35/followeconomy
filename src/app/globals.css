@@ -520,15 +520,27 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .tm-ts{ font-size:11px; opacity:.65; }
 
 /* === Treemap/Uniform Heatmap === */
+/* Hepsi eşit boy: 5x7 ve biraz daha küçük widget */
 .tm-grid.uniform{
-  --tm-cols:4; --tm-rows:4; --tm-row-h:56px;
-  display:grid; gap:8px;
-  grid-template-columns:repeat(var(--tm-cols),1fr);
-  grid-template-rows:repeat(var(--tm-rows),var(--tm-row-h));
+  --tm-cols: 5; --tm-rows: 7; --tm-row-h: 38px;
+  display: grid; gap: 8px;
+  grid-template-columns: repeat(var(--tm-cols), 1fr);
+  grid-template-rows: repeat(var(--tm-rows), var(--tm-row-h));
 }
-.tm-tile{ padding:8px; border-radius:12px; overflow:hidden; }
-.tm-row{ display:flex; justify-content:space-between; gap:6px; }
-.tm-sym,.tm-ch,.tm-price{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Kutular */
+.tm-tile{
+  display:flex; flex-direction:column; justify-content:space-between;
+  padding:8px; border-radius:12px; border:1px solid rgba(0,0,0,.08);
+  overflow:hidden; cursor:pointer; text-align:left;
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+.dark .tm-tile{ border-color: rgba(255,255,255,.08); }
+.tm-tile.is-focus{ outline:2px solid rgba(255,255,255,.45); }
+
+/* Metinler daima okunur */
+.tm-row{ display:flex; align-items:center; justify-content:space-between; gap:6px; }
+.tm-sym, .tm-ch, .tm-price{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html.dark .tm-sym, html.dark .tm-ch, html.dark .tm-price{ color:#fff; text-shadow:0 0 1px rgba(0,0,0,.6); }
 html:not(.dark) .tm-sym, html:not(.dark) .tm-ch, html:not(.dark) .tm-price{ color:#0d1117; text-shadow:0 0 1px rgba(0,0,0,.25); }
 
