@@ -46,7 +46,7 @@ const globalItems = [
 
 export default function Home() {
   return (
-    <main className="container">
+    <main className="container container--fluid">
       <WidgetBar />
       <TickerRow items={cryptoItems} variant="crypto" speed={60} />
       <TickerRow items={globalItems} variant="global" speed={54} />

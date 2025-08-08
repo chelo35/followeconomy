@@ -239,12 +239,38 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 }
 
 /* ======= WIDGET BAR (single row, responsive) ======= */
+/* Wrap: position for hint */
+.widget-bar-wrap { position: relative; }
+
 .widget-bar{
   display: flex;
   gap: 12px;
   overflow-x: auto;          /* mobilde yatay kaydırma */
   padding: 10px 0;
   scroll-snap-type: x mandatory;
+}
+
+/* Scroll hint: sağ kenarda degrade + ok */
+.scroll-hint{
+  position: absolute; top: 0; right: 0; bottom: 0; width: 64px;
+  pointer-events: none; display: none;
+  background:
+    linear-gradient(90deg, transparent, var(--background-light) 60%);
+}
+.dark .scroll-hint{
+  background:
+    linear-gradient(90deg, transparent, var(--background-dark) 60%);
+}
+.scroll-hint::after{
+  content: '➜';
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  font-size: 20px; opacity: .55;
+}
+.scroll-hint.show{ display: block; }
+
+/* Masaüstünde genelde sığar: istersen hint'i gizleyebiliriz */
+@media (min-width: 1100px){
+  .scroll-hint{ display: none !important; }
 }
 .widget{
   scroll-snap-align: start;
