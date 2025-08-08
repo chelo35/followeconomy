@@ -1,27 +1,27 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import TopHeader from '@/components/TopHeader';
 
 export const metadata: Metadata = {
-  title: 'followeconomy — Step 1',
-  description: 'No text, header color block only',
+  title: 'FollowEconomy',
+  description: 'Crypto-first global markets hub',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr">
       <body className="light">
-        {/* Tema sınıfını boyamadan önce ayarla */}
+        {/* Tema bootstrap */}
         <Script id="fe-theme-loader" strategy="beforeInteractive">{`
           try {
             var saved = localStorage.getItem('fe-theme');
-            if (saved === 'dark' || saved === 'light') {
-              document.body.className = saved;
-            } else {
-              document.body.className = 'light';
-            }
+            document.body.className = (saved === 'dark' || saved === 'light') ? saved : 'light';
           } catch(e) { document.body.className = 'light'; }
         `}</Script>
+
+        <TopHeader />
+
         {children}
       </body>
     </html>
