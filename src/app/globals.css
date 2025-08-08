@@ -662,6 +662,53 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
   .grid-cards { grid-template-columns: 1fr; }
 }
 
+/* ===== LAYER STRUCTURE ===== */
+.layer {
+  margin-bottom: 24px;
+}
+
+.layer-widgets {
+  /* Widget bar layer */
+}
+
+.layer-tickers {
+  /* Ticker rows layer */
+}
+
+.ticker-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.layer-news {
+  /* News hub layer */
+}
+
+/* ===== Z-INDEX PROTECTION ===== */
+/* Header her şeyin üstünde */
+.site-header, .top-header, header {
+  position: sticky;        /* sende sticky değilse relative de olur */
+  top: 0;
+  z-index: 1000;
+}
+
+/* Katman sarmalayıcıları */
+.layer { position: relative; }
+.layer-widgets { z-index: 40; }  /* widget kartları */
+.layer-tickers { z-index: 30; }  /* iki kayan yazı */
+.layer-news    { z-index: 20; }  /* mavi/yeşil haber alanı */
+
+/* Ticker'ların kendi içinde de güvenli olsun */
+.ticker-stack { position: relative; z-index: 1; }
+
+/* Haber hub, overlay'lere takılmasın */
+.news-hub { position: relative; z-index: 0; }
+
+/* (Varsa) scroll-hint / tooltip / modal gibi şeyler */
+.scroll-hint { position: fixed; z-index: 900; }
+.modal, .dialog { position: fixed; z-index: 1100; }
+
 /* ===== NEWS ARCHIVE PAGE ===== */
 .news-archive h1 {
   font-size: 32px;
