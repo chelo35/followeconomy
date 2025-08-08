@@ -19,22 +19,10 @@ function fmtPrice(p?: number) {
 }
 
 export default function TreemapHeatmap({
-  title,
-  endpoint,
-  cols = 4,
-  rows = 4,
-  rowHeight = 56,            // kutuları büyüt
+  title, endpoint,
+  cols = 5, rows = 7,             // 5x7 = 35 tiles
   pollMs = 60_000,
-  symbolsOrder,              // belirli sırayı uygula
-}: {
-  title: string;
-  endpoint: string;
-  cols?: number;
-  rows?: number;
-  rowHeight?: number;
-  pollMs?: number;
-  symbolsOrder?: string[];   // ['BTC','ETH',...]
-}) {
+}: { title: string; endpoint: string; cols?: number; rows?: number; pollMs?: number }) {
   const [items, setItems] = useState<Item[]>([]);
   const [ts, setTs] = useState<number | null>(null);
   const [focus, setFocus] = useState<string | null>(null);
@@ -45,43 +33,26 @@ export default function TreemapHeatmap({
       try {
         const r = await fetch(endpoint, { cache: 'no-store' });
         const j = await r.json();
-        let arr: Item[] = (j.items || []).map((it: any) => ({
+        const arr: Item[] = (j.items || []).map((it: any) => ({
           symbol: String(it.symbol || '').toUpperCase(),
           price: typeof it.price === 'number' ? it.price : undefined,
           changePct: Number(it.changePct || 0),
           weight: Number(it.mcapUsd || it.weight || Math.abs(it.changePct) || 1),
         }));
-
-        // İstenilen sırayı/filtreyi uygula (sadece verilen semboller, verilen sırayla)
-        if (symbolsOrder && symbolsOrder.length) {
-          const map = new Map(arr.map(i => [i.symbol.toUpperCase(), i]));
-          arr = symbolsOrder.map(s => map.get(s.toUpperCase())).filter(Boolean) as Item[];
-        } else {
-          // Ağırlığa göre sırala (fallback)
-          arr.sort((a, b) => (b.weight! - a.weight!));
-        }
-
-        // Grid kadar elemana sabitle; eksikse boş tile koy
-        const target = cols * rows;
-        if (arr.length > target) arr = arr.slice(0, target);
-        if (arr.length < target) {
-          const blanks = Array.from({ length: target - arr.length }, () => null as any);
-          arr = [...arr, ...blanks];
-        }
-
-        setItems(arr);
+        // ağırlığa göre sırala ve tam sığacak kadar al
+        arr.sort((a, b) => (b.weight! - a.weight!));
+        setItems(arr.slice(0, cols * rows));
         setTs(j.ts ?? Date.now());
       } catch {/* sessiz */}
     };
     load();
     const id = setInterval(load, pollMs);
     return () => clearInterval(id);
-  }, [endpoint, cols, rows, pollMs, symbolsOrder]);
+  }, [endpoint, cols, rows, pollMs]);
 
   const color = (pct: number) => {
-    if (pct == null || isNaN(pct)) return 'var(--surface-2)';
-    const a = 0.2 + Math.min(8, Math.abs(pct)) / 8 * 0.45;
-    return `rgba(${pct >= 0 ? '46,204,113' : '231,76,60'}, ${a.toFixed(2)})`;
+    const alpha = 0.2 + Math.min(8, Math.abs(pct)) / 8 * 0.45;
+    return `rgba(${pct >= 0 ? '46,204,113' : '231,76,60'}, ${alpha.toFixed(2)})`;
   };
 
   return (
@@ -91,41 +62,30 @@ export default function TreemapHeatmap({
         <span className="tm-ts">{ts ? new Date(ts).toLocaleTimeString() : '—'}</span>
       </div>
 
-      <div
-        className="tm-grid uniform"
-        style={{
-          ['--tm-cols' as any]: cols,
-          ['--tm-rows' as any]: rows,
-          ['--tm-row-h' as any]: `${rowHeight}px`,
-        }}
-      >
-        {items.map((t, idx) =>
-          t ? (
+      <div className="tm-grid uniform" style={{ ['--tm-cols' as any]: cols, ['--tm-rows' as any]: rows }}>
+        {items.map((t) => {
+          const isFocus = focus === t.symbol;               // tek tıkla 2x
+          return (
             <button
-              key={t.symbol + idx}
-              className={`tm-tile ${focus === t.symbol ? 'is-focus' : ''} ${t.changePct >= 0 ? 'up' : 'down'}`}
+              key={t.symbol}
+              className={`tm-tile ${isFocus ? 'is-focus' : ''} ${t.changePct >= 0 ? 'up' : 'down'}`}
               style={{
-                gridColumn: `span ${focus === t.symbol ? 2 : 1}`,
-                gridRow:    `span ${focus === t.symbol ? 2 : 1}`,
+                gridColumn: `span ${isFocus ? 2 : 1}`,
+                gridRow:    `span ${isFocus ? 2 : 1}`,
                 background: color(t.changePct),
               }}
-              onClick={() => setFocus(focus === t.symbol ? null : t.symbol)}
+              onClick={() => setFocus(isFocus ? null : t.symbol)}
               onDoubleClick={() => setZoom(t)}
               title={t.symbol}
             >
               <div className="tm-row">
-                <span className="tm-sym">{t.symbol}</span>
-                <span className="tm-ch">
-                  {t.changePct >= 0 ? '▲' : '▼'} {Math.abs(t.changePct).toFixed(2)}%
-                </span>
+                <span className="tm-sym" aria-label="symbol">{t.symbol}</span>
+                <span className="tm-ch">{t.changePct >= 0 ? '▲' : '▼'} {Math.abs(t.changePct).toFixed(2)}%</span>
               </div>
-              {focus === t.symbol && <div className="tm-price">{fmtPrice(t.price)}</div>}
+              {isFocus && <div className="tm-price">{fmtPrice(t.price)}</div>}
             </button>
-          ) : (
-            // Boş kutu: grid düzenini koru
-            <div key={`blank-${idx}`} className="tm-tile tm-blank" />
-          )
-        )}
+          );
+        })}
       </div>
 
       {zoom && (
