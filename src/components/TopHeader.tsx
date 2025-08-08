@@ -1,6 +1,10 @@
+'use client';
 import ThemeToggle from './ThemeToggle';
+import { useState } from 'react';
 
 export default function TopHeader() {
+  const [lang, setLang] = useState('en');
+
   return (
     <header className="topbar">
       <div className="topbar-inner">
@@ -22,16 +26,35 @@ export default function TopHeader() {
           </div>
         </a>
 
-        {/* Crypto-focused nav (no dropdowns yet) */}
+        {/* Main nav (EN) */}
         <nav className="mainnav" aria-label="Main">
-          <a className="nav-link" href="#">On-chain Data</a>
-          <a className="nav-link" href="#">Crypto Signal Bots</a>
-          <a className="nav-link" href="#">Crypto ETFs</a>
-          <a className="nav-link" href="#">Coin News</a>
-          <a className="nav-link" href="#">Dev Updates</a>
+          <a className="nav-link" href="#">Markets</a>
+          <a className="nav-link" href="#">News</a>
+          <a className="nav-link" href="#">Crypto News</a>
+          <a className="nav-link" href="#">Economic Calendar</a>
+          <a className="nav-link" href="#">Charts</a>
+          <a className="nav-link" href="#">Watchlist</a>
+          <a className="nav-link" href="#">Alerts</a>
         </nav>
 
-        <ThemeToggle />
+        {/* Search + Controls */}
+        <div className="topbar-right">
+          <input className="search" placeholder="Search on site…" aria-label="Search" />
+          <ThemeToggle />
+          <div className="auth">
+            <button className="btn ghost">Log in</button>
+            <button className="btn solid">Sign up</button>
+          </div>
+          <select
+            className="lang"
+            aria-label="Language"
+            value={lang}
+            onChange={(e) => setLang(e.target.value)}
+          >
+            <option value="en">EN</option>
+            <option value="tr">TR</option>
+          </select>
+        </div>
       </div>
     </header>
   );
