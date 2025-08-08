@@ -20,7 +20,7 @@ function fmtPrice(p?: number) {
 
 export default function TreemapHeatmap({
   title, endpoint,
-  cols = 5, rows = 8,             // biraz daha büyük kutu
+  cols = 5, rows = 7,             // 5x7 = 35 tiles
   pollMs = 60_000,
 }: { title: string; endpoint: string; cols?: number; rows?: number; pollMs?: number }) {
   const [items, setItems] = useState<Item[]>([]);
