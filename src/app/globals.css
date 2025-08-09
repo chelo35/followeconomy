@@ -28,6 +28,14 @@
 
   /* Layout */
   --container-max: 1440px; /* önce 1200'dü */
+  
+  /* Breakpoints & Dimensions */
+  --bp-desktop: 1024px;
+  --bp-tablet: 768px;
+
+  --z-header: 60;
+  --header-h-desktop: 64px;
+  --header-h-mobile: 56px;
 }
 
 /* Base */
@@ -51,8 +59,21 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
   padding: 24px;
 }
 
-/* İleride tam genişlik istersen bu sınıfı verirsin */
-.container--fluid { max-width: 100%; }
+/* full-bleed container: desktop geniş */
+.container--fluid{
+  width: 100%;
+  max-width: none;               /* daraltmayı iptal */
+  margin: 0 auto;
+  padding-inline: clamp(12px, 2vw, 24px);
+}
+
+/* Görünürlük yardımcıları */
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+@media (max-width: 768px){
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block !important; }
+}
 
 /* TOP HEADER BLOCK (no text) */
 .header-block {
@@ -136,6 +157,10 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .topbar {
   background: var(--background-light);
   border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  backdrop-filter: saturate(1.2) blur(8px);
 }
 .dark .topbar { background: var(--background-dark); border-color: var(--border-dark); }
 
@@ -181,6 +206,34 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
   background: linear-gradient(180deg, var(--surface-dark), #2b2e33);
 }
 .dark .nav-link:hover { border-color: var(--border-dark); }
+
+/* Masaüstü davranışını bozma */
+.nav-rail{ display:flex; gap:10px; align-items:center; }
+
+/* Mobilde yatay kaydırma + snap */
+@media (max-width: 768px){
+  .nav-rail{
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    mask-image: linear-gradient(90deg, transparent 0, #0006 14px, #0006 calc(100% - 14px), transparent);
+  }
+  .nav-rail::-webkit-scrollbar{ display:none; }
+  .nav-rail > *{ flex: 0 0 auto; scroll-snap-align: start; }
+
+  /* Pro rozeti mobilde ufalsın, desktop aynı kalsın */
+  .fe-pro-badge{
+    font-size: clamp(12px, 2.6vw, 13px);
+    padding: 6px 10px;
+    border-radius: 999px;
+  }
+
+  /* Arama inputu daha kompakt */
+  .site-search{ width: min(62vw, 380px); height: 36px; }
+}
 
 /* Sağ kontrol grubu — YAN YANA ve kompakt */
 .topbar-right{ display:flex; align-items:center; gap:8px; }
@@ -296,6 +349,27 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 .dark .ti-change.up   { color: var(--success-dark); }
 .dark .ti-change.down { color: var(--danger-dark); }
 
+/* mevcut ticker masaüstünde olduğu gibi çalışır */
+.ticker-row{ display:flex; gap:8px; }
+
+/* Mobil: yatay swipe + snap, animasyonsuz akıcı */
+@media (max-width: 768px){
+  .ticker-row{
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .ticker-row::-webkit-scrollbar{ display:none; }
+  .ticker-chip{ flex: 0 0 auto; scroll-snap-align: start; }
+}
+
+/* Hareketi azaltanlar için */
+@media (prefers-reduced-motion: reduce){
+  .ticker-animate{ animation: none !important; }
+}
+
 /* Accessibility: motion azaltma */
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }
@@ -355,6 +429,57 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 /* Desktop tek satıra sığdırma */
 @media (min-width: 1100px){
   .widget-bar{ overflow-x: visible; }
+}
+
+/* Kartların ortak halleri, varsa mevcut stillerinizle çakışmıyorsa bırakın */
+.widgetbar .widget {
+  border-radius: 12px;
+  padding: 10px 12px;          /* daha kompakt */
+  min-width: 0;
+}
+.widgetbar .w-title { font-size: 13px; line-height: 1.1; }
+.widgetbar .w-value { font-size: 16px; font-weight: 600; }
+.widgetbar .w-sub   { font-size: 12px; opacity: .8; }
+
+/* Masaüstünde tek sıra */
+@media (min-width: 1024px) {
+  .widgetbar.single-row{
+    display: flex;
+    flex-wrap: nowrap;         /* tek satır */
+    gap: 12px;
+    align-items: stretch;
+    padding-top: 6px;
+    overflow-x: hidden;        /* isterseniz auto yapıp sağa kaydırılabilir yapın */
+  }
+  .widgetbar.single-row .widget{
+    flex: 1 1 0;               /* tüm kartları satıra eşit yay */
+    /* istersen: minimum genişlik bir tık koruma */
+    min-width: 180px;
+  }
+
+  /* Satırın çok sıkıştığı dar masaüstlerinde kaydırılabilir yapmak için: */
+  @media (max-width: 1200px){
+    .widgetbar.single-row{ overflow-x: auto; }
+  }
+}
+
+/* Widget Grid Layout - eski grid sistem (yedek) */
+.widgets{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 1024px){
+  .widgets{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 768px){
+  .widgets{ grid-template-columns: 1fr; }
+  .widget-card{
+    padding: 12px;
+  }
+  .widget-card .title{
+    font-size: clamp(14px, 3.6vw, 16px);
+  }
 }
 
 .spacer { height: 40vh; }
@@ -454,6 +579,119 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
 
 @media (max-width: 900px) {
   .mainnav { display:none; } /* mobilde nav'ı sade tutalım; ileride hamburger ekleriz */
+}
+
+/* Mobil üst bar */
+.topbar-mobile{
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--bg, #fff);
+  backdrop-filter: blur(8px) saturate(1.1);
+  border-bottom: 1px solid color-mix(in oklab, currentColor 12%, transparent);
+}
+.topbar-mobile .logo-sm{
+  font-weight: 700; font-size: 18px; text-decoration: none;
+}
+.topbar-mobile .m-right{ display:flex; gap:10px; align-items:center; }
+.icon-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:34px; height:34px; border-radius:10px;
+  border: 1px solid color-mix(in oklab, currentColor 12%, transparent);
+  background: color-mix(in oklab, currentColor 2%, transparent);
+}
+
+/* Mobil alt sekme çubuğu (app-like) */
+.bottom-nav{
+  position: sticky; bottom: 0; z-index: 59;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 8px; padding: 8px 10px;
+  background: var(--bg, #fff);
+  border-top: 1px solid color-mix(in oklab, currentColor 12%, transparent);
+}
+.bottom-nav .tab{
+  display:flex; align-items:center; justify-content:center;
+  height: 38px; border-radius: 10px;
+  font-size: 13px; text-decoration:none;
+  border: 1px solid color-mix(in oklab, currentColor 10%, transparent);
+  background: color-mix(in oklab, currentColor 2%, transparent);
+}
+.bottom-nav .more{ font-weight: 600; }
+
+/* Mobil sheet */
+.sheet-backdrop{
+  position: fixed; inset: 0; background: rgba(0,0,0,.3);
+  z-index: 70; display:flex; justify-content:center; align-items:flex-end;
+}
+.sheet{
+  width: 100%; max-width: 520px; max-height: 80vh;
+  background: var(--bg, #fff); border-top-left-radius: 16px; border-top-right-radius: 16px;
+  padding: 12px 14px; box-shadow: 0 -10px 40px rgba(0,0,0,.2);
+  overflow: auto;
+}
+.sheet-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.sheet-body{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; padding-bottom:8px; }
+.sheet-body a{
+  padding:10px 12px; border-radius:10px; text-decoration:none;
+  border:1px solid color-mix(in oklab, currentColor 10%, transparent);
+  background: color-mix(in oklab, currentColor 2%, transparent);
+  font-size:14px;
+}
+
+/* Sayfalı pager */
+.sheet-pager{
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  display: flex;
+  gap: 0;               /* sayfalar bitişik */
+  -webkit-overflow-scrolling: touch;
+}
+.sheet-page{
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  padding: 8px 2px 4px;
+}
+
+/* 2 sütun x 4 satır (8 link/sayfa) */
+.sheet-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 6px 4px 12px;
+}
+.sheet-grid a{
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 14px;
+  border: 1px solid color-mix(in oklab, currentColor 10%, transparent);
+  background: color-mix(in oklab, currentColor 2%, transparent);
+}
+
+/* Dots göstergesi */
+.sheet-dots{
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 6px 0 2px;
+}
+.sheet-dots .dot{
+  width: 8px; height: 8px; border-radius: 50%;
+  border: none;
+  background: color-mix(in oklab, currentColor 30%, transparent);
+  opacity: .5;
+}
+.sheet-dots .dot.active{
+  width: 18px; height: 8px; border-radius: 999px;
+  opacity: 1;
+  background: currentColor;
+}
+
+/* Masaüstünde bu mobil elemanlar görünmez (zaten .mobile-only ile kapalı) */
+@media (min-width: 769px){
+  .topbar-mobile, .bottom-nav, .sheet-backdrop{ display:none; }
 }
 
 /* ===== BREAKING NEWS ===== */
