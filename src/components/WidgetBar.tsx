@@ -19,7 +19,10 @@ export default function WidgetBar() {
   ];
 
   return (
-    <section className="widget-bar widgets" aria-label="Market overview">
+    <section
+      className="widgetbar single-row"
+      aria-label="Market overview"
+    >
       {items.map((it) => (
         <article key={it.title} className="widget widget--tight widget-card">
           <header className="widget-h"><span className="w-title title">{it.title}</span></header>

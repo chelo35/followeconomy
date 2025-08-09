@@ -431,7 +431,39 @@ body.dark  { background: var(--background-dark);  color: var(--text-dark); }
   .widget-bar{ overflow-x: visible; }
 }
 
-/* Widget Grid Layout */
+/* Kartların ortak halleri, varsa mevcut stillerinizle çakışmıyorsa bırakın */
+.widgetbar .widget {
+  border-radius: 12px;
+  padding: 10px 12px;          /* daha kompakt */
+  min-width: 0;
+}
+.widgetbar .w-title { font-size: 13px; line-height: 1.1; }
+.widgetbar .w-value { font-size: 16px; font-weight: 600; }
+.widgetbar .w-sub   { font-size: 12px; opacity: .8; }
+
+/* Masaüstünde tek sıra */
+@media (min-width: 1024px) {
+  .widgetbar.single-row{
+    display: flex;
+    flex-wrap: nowrap;         /* tek satır */
+    gap: 12px;
+    align-items: stretch;
+    padding-top: 6px;
+    overflow-x: hidden;        /* isterseniz auto yapıp sağa kaydırılabilir yapın */
+  }
+  .widgetbar.single-row .widget{
+    flex: 1 1 0;               /* tüm kartları satıra eşit yay */
+    /* istersen: minimum genişlik bir tık koruma */
+    min-width: 180px;
+  }
+
+  /* Satırın çok sıkıştığı dar masaüstlerinde kaydırılabilir yapmak için: */
+  @media (max-width: 1200px){
+    .widgetbar.single-row{ overflow-x: auto; }
+  }
+}
+
+/* Widget Grid Layout - eski grid sistem (yedek) */
 .widgets{
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
