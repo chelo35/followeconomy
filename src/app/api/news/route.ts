@@ -1,40 +1,54 @@
-// app router
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
+import { kv } from '@vercel/kv'
 
-type NewsItem = {
-  id: string;
-  title: string;
-  summary?: string;
-  url?: string;
-  source?: string;
-  ts: number;        // epoch ms
-};
-
-// basit in-memory store (Vercel'de kalıcı değil; DB ekleriz)
-let breaking: NewsItem | null = null;
-let items: NewsItem[] = [];
-
-export async function GET() {
-  return NextResponse.json({ breaking, items });
+type News = {
+  id: string
+  title: string
+  summary?: string
+  url?: string
+  ts: number
+  tags?: string[]
+  source?: string
 }
 
-export async function POST(req: NextRequest) {
-  const body = await req.json().catch(() => ({}));
-  const now = Date.now();
-  const item: NewsItem = {
-    id: body.id ?? crypto.randomUUID(),
-    title: body.title ?? "Untitled",
-    summary: body.summary ?? "",
-    url: body.url ?? "",
-    source: body.source ?? "FollowEconomy",
-    ts: body.ts ?? now,
-  };
+const KEY_BREAKING = 'news:breaking'
+const KEY_RECENT = 'news:recent'
 
-  // kural: yeni gelen mavi alana, eski breaking yeşil kuyruğa iner
-  if (breaking) items = [breaking, ...items];
-  breaking = item;
+export async function GET() {
+  const [breaking, recent] = await Promise.all([
+    kv.get<News>(KEY_BREAKING),
+    kv.lrange<News>(KEY_RECENT, 0, 99),
+  ])
+  return NextResponse.json(
+    { breaking: breaking ?? null, recent: recent ?? [], items: recent ?? [] },
+    { headers: { 'cache-control': 'no-cache, no-store' } }
+  )
+}
 
-  // hafif limit
-  items = items.slice(0, 200);
-  return NextResponse.json({ ok: true, breaking, items });
+export async function POST(req: Request) {
+  const secret = process.env.NEWS_SECRET
+  const header = req.headers.get('x-secret')
+  if (!secret || header !== secret) {
+    return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  }
+
+  const body = await req.json()
+  const news: News = {
+    id: crypto.randomUUID(),
+    title: body?.title ?? body?.headline ?? '',
+    summary: body?.summary,
+    url: body?.url,
+    ts: typeof body?.ts === 'number' ? body.ts : Date.now(),
+    tags: Array.isArray(body?.tags) ? body.tags : [],
+    source: 'FollowEconomy',
+  }
+
+  const prev = await kv.get<News>(KEY_BREAKING)
+  if (prev) {
+    await kv.lpush(KEY_RECENT, prev)
+    await kv.ltrim(KEY_RECENT, 0, 99)
+  }
+  await kv.set(KEY_BREAKING, news)
+
+  return NextResponse.json({ ok: true, id: news.id })
 }
