@@ -1,7 +1,4 @@
 // src/app/page.tsx
-export const revalidate = 0;
-export const dynamic = 'force-dynamic';
-
 import WidgetBar from "@/components/WidgetBar";
 import TickerRow from "@/components/TickerRow";
 import NewsCard from '@/components/NewsCard';

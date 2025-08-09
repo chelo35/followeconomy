@@ -1,9 +1,6 @@
 import NewsCard from '@/components/NewsCard'
 import { getNews } from '@/lib/news'
 
-export const revalidate = 0
-export const dynamic = 'force-dynamic'
-
 export default async function NewsPage(){
   const [all, crypto, economy] = await Promise.all([
     getNews('all'), getNews('crypto'), getNews('economy')

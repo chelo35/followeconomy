@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
 
 const NAV_ITEMS = [
-  "Markets","News","Crypto News","Economic Calendar",
+  "Markets","News","Crypto News","Economy News","Economic Calendar",
   "Charts","Watchlist","Alerts","AI Insights",
   "On-chain Data","Derivatives","Macro","Research",
   "FollowEconomy Pro","Settings","Language","Theme"
@@ -66,10 +67,11 @@ export default function TopHeader() {
 
         <nav className="mainnav" aria-label="Main">
           <div className="nav-rail">
-            <a className="nav-link" href="#">Markets</a>
-            <a className="nav-link" href="#">News</a>
-            <a className="nav-link" href="#">Crypto News</a>
-            <a className="nav-link" href="#">Economic Calendar</a>
+            <Link className="nav-link" href="/">Markets</Link>
+            <Link className="nav-link" href="/news">News</Link>
+            <Link className="nav-link" href="/news#crypto">Crypto News</Link>
+            <Link className="nav-link" href="/news#economy">Economy News</Link>
+            <Link className="nav-link" href="/calendar">Economic Calendar</Link>
             <a className="nav-link" href="#">Charts</a>
             <a className="nav-link" href="#">Watchlist</a>
             <a className="nav-link" href="#">Alerts</a>
@@ -125,10 +127,10 @@ export default function TopHeader() {
 
       {/* MOBILE BOTTOM TAB BAR */}
       <nav className="bottom-nav mobile-only">
-        <a href="/" className="tab">Markets</a>
-        <a href="/news" className="tab">News</a>
-        <a href="/crypto" className="tab">Crypto</a>
-        <a href="/calendar" className="tab">Calendar</a>
+        <Link href="/" className="tab">Markets</Link>
+        <Link href="/news" className="tab">News</Link>
+        <Link href="/news#crypto" className="tab">Crypto</Link>
+        <Link href="/calendar" className="tab">Calendar</Link>
         <button className="tab more" onClick={() => setOpenSheet(true)}>More</button>
       </nav>
 
@@ -153,14 +155,16 @@ export default function TopHeader() {
                     {items.map((label) => {
                       const href =
                         label === "Markets" ? "/" :
-                        label === "Crypto News" ? "/crypto" :
+                        label === "News" ? "/news" :
+                        label === "Crypto News" ? "/news#crypto" :
+                        label === "Economy News" ? "/news#economy" :
                         label === "Economic Calendar" ? "/calendar" :
                         label === "FollowEconomy Pro" ? "/pro" :
                         `/${label.toLowerCase().replaceAll(' ','-')}`;
                       return (
-                        <a href={href} key={label} onClick={() => setOpenSheet(false)}>
+                        <Link href={href} key={label} onClick={() => setOpenSheet(false)}>
                           {label}
-                        </a>
+                        </Link>
                       );
                     })}
                   </div>
