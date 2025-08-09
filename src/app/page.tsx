@@ -1,7 +1,11 @@
 // src/app/page.tsx
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+
 import WidgetBar from "@/components/WidgetBar";
 import TickerRow from "@/components/TickerRow";
-import NewsHub from "@/components/news/NewsHub";
+import NewsCard from '@/components/NewsCard';
+import { getNews } from '@/lib/news';
 
 const cryptoItems = [
   { label: 'BTC/USDT', value: '64,320', change: 1.85 },
@@ -23,7 +27,11 @@ const globalItems = [
   { label: 'Brent Oil', value: '84.70', change: -0.22 },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const all = await getNews('all');
+  const crypto = await getNews('crypto');
+  const economy = await getNews('economy');
+
   return (
     <main className="container container--fluid">
       <section className="layer layer-widgets">
@@ -37,8 +45,30 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="layer layer-news">
-        <NewsHub />
+      <section className="layer layer-news space-y-8 p-6">
+        {/* Breaking */}
+        {all.breaking && (
+          <div>
+            <h2 className="text-xl font-bold mb-3">Breaking News</h2>
+            <NewsCard item={all.breaking} />
+          </div>
+        )}
+
+        {/* Crypto News */}
+        <div>
+          <h2 className="text-xl font-bold mb-3">Crypto News</h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {crypto.items.slice(0, 6).map(n => <NewsCard key={n.id} item={n} />)}
+          </div>
+        </div>
+
+        {/* Economy News */}
+        <div>
+          <h2 className="text-xl font-bold mb-3">Economy News</h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {economy.items.slice(0, 6).map(n => <NewsCard key={n.id} item={n} />)}
+          </div>
+        </div>
       </section>
     </main>
   );
